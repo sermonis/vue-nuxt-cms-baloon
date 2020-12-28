@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - todo',
+    titleTemplate: 'MEVN - todo',
     title: 'todo',
     meta: [
       { charset: 'utf-8' },
@@ -13,6 +13,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  loading: { 
+    color: '#8B0715' 
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
