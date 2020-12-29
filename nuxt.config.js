@@ -15,6 +15,10 @@ export default {
     ]
   },
 
+  env:{
+    PAGE_TITLE : "Todo App"
+  },
+
   loading: { 
     color: '#8B0715' 
   },
@@ -49,7 +53,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
