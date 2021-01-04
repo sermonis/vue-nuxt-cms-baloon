@@ -11,6 +11,7 @@
         <footer>
           <small>
             <em>&mdash;John Johnson</em>
+           
           </small>
         </footer>
       </blockquote>
@@ -19,6 +20,8 @@
 </template>
 <script>
 export default {
-  
+  components: {
+    //Aside : () => import("@/components/layout/Aside.vue"),
+  },
 }
 </script>

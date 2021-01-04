@@ -1,27 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" app disable-resize-watcher>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title"> Application </v-list-item-title>
-          <v-list-item-subtitle> subtext </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <!--  -->
-    </v-navigation-drawer>
-
+    <Aside :drawer="drawer" />
     <v-app-bar app color="primary" dark prominent src="/header-image.jpg">
       <template v-slot:img="{ props }">
         <v-img
@@ -52,6 +31,7 @@
       <v-container fluid>
         <nuxt />
       </v-container>
+      <ScroolToTop/>
     </v-main>
 
     <v-footer :absolute="!fixed" app>
@@ -64,16 +44,16 @@
 // TODO: do something
 export default {
   name: "default-layout",
+  components: {
+    Aside: () => import("@/components/layout/Aside.vue"),
+    ScroolToTop: () => import("@/components/layout/ScroolToTop.vue")
+  },
   data() {
     return {
-      drawer: null,
+      
+      drawer: false,
       fixed: false,
-      title: process.env.PAGE_TITLE,
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
-        { title: "Inspare", icon: "mdi-image", to: "/inspire" },
-        { title: "Photos", icon: "mdi-help-box", to: "/photos" }
-      ]
+      title: process.env.PAGE_TITLE
     };
   }
 };
