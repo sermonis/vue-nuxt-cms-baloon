@@ -1,30 +1,30 @@
 <template>
   <v-fab-transition>
-      <v-btn
-        v-scroll="onScroll"
-        v-show="fab"
-        fab
-        dark
-        fixed
-        bottom
-        right
-        color="primary"
-        @click="toTop"
-        elevation="24"
-        small
-      >
-        <v-icon dense small>mdi-chevron-up</v-icon>
-      </v-btn>
-    </v-fab-transition>
+    <v-btn
+      v-scroll="onScroll"
+      v-show="fab"
+      fab
+      dark
+      fixed
+      bottom
+      right
+      color="primary"
+      @click="toTop"
+      elevation="24"
+      small
+    >
+      <v-icon dense small>mdi-chevron-up</v-icon>
+    </v-btn>
+  </v-fab-transition>
 </template>
 
 <script>
 export default {
-   data() {
-       return {
-           fab: false
-       }
-   },
+  data() {
+    return {
+      fab: false,
+    };
+  },
   methods: {
     onScroll(e) {
       if (typeof window === "undefined") return;
@@ -35,9 +35,7 @@ export default {
       this.$vuetify.goTo(0);
     },
   },
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
