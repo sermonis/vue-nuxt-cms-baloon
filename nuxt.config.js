@@ -1,35 +1,39 @@
-import colors from 'vuetify/es5/util/colors'
-
+import colors from "vuetify/es5/util/colors";
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
-   head: {
+  head: {
     titleTemplate(titleChunk) {
-      return titleChunk ? titleChunk : process.env.PAGE_TITLE
+      return titleChunk ? titleChunk : process.env.PAGE_TITLE;
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "author", content: "Ballon CMS" },
+      { property: "og:title", content: `${process.env.PAGE_TITLE} | Ballon CMS` },
+      { property: "og:url", content: `${process.env.BASE_URL}` },
+      { property: "og:description", content: "Content Management System For Hot Air Balloon Companies" },
+      { name: "type", content: "website" },
+      { name: "Revisit-after", content: "7 Days" },
+      { name: "keywords", content: "New Powerfull Hot Air Ballon CMS, Hot Air Ballon Website" },
+      { hid: "description", name: "description", content: "Content Management System For Hot Air Balloon Companies" }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
   },
 
-  env:{
-    PAGE_TITLE : "Todo App with VueJs&Vuetify"
+  env: {
+    PAGE_TITLE: "Todo App with VueJs & Vuetify",
+    BASE_URL: "http://localhost/"
   },
 
-  loading: { 
-    color: '#8B0715' 
+  loading: {
+    color: "#8B0715"
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    "~/plugins/axios"
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -38,22 +42,21 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-    'nuxt-purgecss'
+    "@nuxtjs/vuetify",
+    "nuxt-purgecss"
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    "@nuxtjs/axios"
   ],
-
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: false,
       themes: {
@@ -71,6 +74,5 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {
-  }
-}
+  build: {}
+};

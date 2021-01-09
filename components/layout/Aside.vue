@@ -34,6 +34,7 @@ export default {
       { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
       { title: "Inspare", icon: "mdi-image", to: "/inspire" },
       { title: "Photos", icon: "mdi-help-box", to: "/photos" },
+      { title: "Login", icon: "mdi-help-box", to: "/login" },
     ],
   }),
 

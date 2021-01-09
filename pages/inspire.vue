@@ -1,17 +1,12 @@
 <template>
   <v-row>
     <v-col class="text-center">
-      <img
-        src="/v.png"
-        alt="Vuetify.js"
-        class="mb-5"
-      >
-      <blockquote class="blockquote">
+      <img src="/v.png" alt="Vuetify.js" class="mb-5" />
+      <blockquote class="blockquote" style="cursor:pointer" @click="$store.dispatch('auth/setToken','bişeyler')" >
         &#8220;First, solve the problem. Then, write the code.&#8221;
         <footer>
           <small>
             <em>&mdash;John Johnson</em>
-           
           </small>
         </footer>
       </blockquote>
@@ -23,5 +18,16 @@ export default {
   components: {
     //Aside : () => import("@/components/layout/Aside.vue"),
   },
-}
+  data() {
+    return {
+      
+    };
+  },
+  fetch({store}){
+    store.dispatch('setAuth')
+  },
+  methods: {
+    
+  },
+};
 </script>

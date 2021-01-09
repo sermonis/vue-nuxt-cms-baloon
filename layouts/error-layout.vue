@@ -3,23 +3,19 @@
     <nuxt />
   </div>
 </template>
-<script >
-
+<script>
 export default {
-    name: 'ErrorLayout',
-    head() {
-      return {
-        title: "Page not found",
-        meta: [
-          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-          {
-            name: 'Page not found',
-            hid: '404',
-            content: 'the Page you requested is not found'
-          }
-        ]
-      }
-    }
+  name: "ErrorLayout",
+  head() {
+    return {
+      title: "Page not found",
+      meta: [
+        { name: "Page not found",hid: "404",content: "the Page you requested is not found"},
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { hid: "description", name: "description", content: "Balloon CMS" }
+      ]
+    };
+  }
 }
 </script>
 <style>

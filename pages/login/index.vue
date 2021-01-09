@@ -1,5 +1,6 @@
 <template>
-  <v-col cols="12" sm="8" md="8" class="">
+<v-row class="d-flex justify-center">
+  <v-col cols="12" sm="6" md="6" >
         <v-card class="evelation-12 card">
           <v-window v-model="step">
             <!--SignIn-->
@@ -189,10 +190,12 @@
           </v-window>
         </v-card>
       </v-col>
+      </v-row>
 </template>
 
 <script>
 export default {
+  layout:"login",
   data() {
     return {
       step: 1,
