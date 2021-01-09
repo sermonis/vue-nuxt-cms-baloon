@@ -48,7 +48,7 @@
 // TODO: do something
 export default {
   name: "default-layout",
-  middleware: ["session-control", "auth"],
+  middleware: "auth",
   components: {
     Aside: () => import("@/components/layout/Aside.vue"),
     ScroolToTop: () => import("@/components/layout/ScroolToTop.vue")

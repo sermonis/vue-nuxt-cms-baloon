@@ -1,30 +1,30 @@
 export const state = () => ({
-  token: "asdasda", // JWT access token
-  user: {
-    id: "Bearer",
-    name: null,
-    surname: null,
-    email: null,
-    lastLogin: null,
-    ip: null,
-    permissions: {}
-  } // JWT refresh token
+  token: null,
+  user: null
 });
 
 export const actions = {
-  setToken(vuexContext, token) {
-    vuexContext.commit("SET_TOKEN", token);
-  }
+  
 };
 
 export const mutations = {
-  SET_USER(state, data) {
-    state.user = data;
+  SET_TOKEN(state, token) {
+    state.token = token
+    this.$cookies.set('token', state.token, {
+      path: '/',
+      maxAge: 60 * 60 * 24
+    });
   },
-  SET_TOKEN(state, data) {
-    state.token = data;
-  }
-};
+  SET_USER(state, user) {
+    state.user = user
+  },
+  LOGOUT(state) {
+    state.token = null;
+    state.user = null;
+    this.$cookies.remove('token');
+    this.$cookies.remove('expiresIn');
+  },
+}
 
 export const getters = {
   isAuthenticated(state) {

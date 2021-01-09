@@ -24,7 +24,7 @@ export default {
     };
   },
   fetch({store}){
-    store.dispatch('setAuth')
+    //store.dispatch('setAuth')
   },
   methods: {
     

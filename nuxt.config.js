@@ -20,8 +20,16 @@ export default {
   },
 
   env: {
-    PAGE_TITLE: "Todo App with VueJs & Vuetify",
+   
+  },
+
+  publicRuntimeConfig: {
     BASE_URL: "http://localhost/"
+  },
+
+  privateRuntimeConfig: {
+    apiSecret: process.env.API_SECRET,
+    userService: process.env.USER_SERVICE
   },
 
   loading: {
@@ -33,7 +41,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    "~/plugins/axios"
+    "~/plugins/axios",
+    "~/plugins/mixins"
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -49,7 +58,8 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
+    "cookie-universal-nuxt"
   ],
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},

@@ -18,19 +18,25 @@ export const actions = {
       "https://jsonplaceholder.typicode.com/users"
     );
   },
-  nuxtServerInit(vuexContext, context ) {
-    /*return context.$axios
-      .post("http://localhost:4000/", { some: "data" })
-      .then(response => {
-        //vuexContext.commit('auth/SET_TOKEN','newToken', { root: true })
-        
-        
-      });
-      */
-  },
-
-  setAuth(vuexContent){
-    //vuexContent.dispatch('auth/setToken',"newToken", { root: true })
+  
+  async nuxtServerInit(store) {
+    const token = this.$cookies.get('token');
+    if (token) {
+      try {
+        const { data } = await this.$axios.post(`${this.$config.userService}/auth`, { token: token } );
+        if( data.error ){
+          await store.commit('auth/LOGOUT');
+        } else {
+          await store.commit('auth/SET_TOKEN', token);
+          await store.commit('auth/SET_USER', data.user);
+        }
+      } catch (error) {
+        await store.commit('auth/LOGOUT');
+        console.log(error);
+      }
+    } else {
+      await store.commit('auth/LOGOUT')
+    }
   }
 
 };
