@@ -1,28 +1,32 @@
 <template>
   <v-app>
     <v-app-bar app dense elevation="6">
-      <nuxt-link to="/">
-        <v-img
-          class="mx-2"
-          src="http://ballooncms.com/assets/default/media/logos/logo.png"
-          max-height="40"
-          max-width="40"
-          contain
-        />
-      </nuxt-link>
-      <v-toolbar-title class="flex text-center">
-        Login
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <nuxt-link  :to="localePath('/about')"><v-img class="mx-2" src="/images/logo.png" max-height="40" max-width="40" contain/></nuxt-link>
+      
+
+      <select v-model="selectedValue" @change="onChange(selectedValue)">
+        <option
+          v-for="(locale, index) in $i18n.locales"
+          :key="index"
+          :value="locale.code"
+        >
+          {{ locale.name }}
+        </option>
+      </select>
     </v-app-bar>
     <v-main>
       <v-container fluid>
         <nuxt />
       </v-container>
     </v-main>
-    <ScroolToTop/>
-    <v-footer :absolute="true" app>
-      <span>&copy; {{ new Date().getFullYear() }} - {{ $store.state.title }}</span>
+    <ScroolToTop />
+    <Snackbar />
+    <v-footer :absolute="true" app class="text-center">
+      <v-flex md2 ></v-flex>
+          <v-flex md8  class="text-xs-center text-sm-body-2">
+            <span>{{ $t('copyrightMessage', { name: $config.COMPANY_NAME, date: new Date().getFullYear()  }) }}</span>
+          </v-flex>
+        <v-flex md2></v-flex>
     </v-footer>
   </v-app>
 </template>
@@ -32,8 +36,41 @@
 export default {
   name: "login-layout",
   middleware: ["not-auth"],
+  data() {
+    return {
+      selectedValue: "",
+    };
+  },
+  created() {
+    this.selectedValue = this.$i18n.locale;
+  },
+  methods: {
+    onChange(event) {
+      this.$i18n.setLocale(event);
+      //this.$router.replace(this.switchLocalePath(event));
+    },
+  },
   components: {
-    ScroolToTop: () => import("@/components/layout/ScroolToTop.vue")
-  }
+    ScroolToTop: () => import("@/components/layout/ScroolToTop"),
+    Snackbar: () => import("@/components/layout/SnackBar")
+  },
+  computed: {
+    availableLocales() {
+      return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
+    },
+  },
 };
 </script>
+<style>
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+.icon-spin {
+  animation: spin 2s infinite linear;
+}
+</style>

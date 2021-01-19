@@ -1,5 +1,5 @@
 export default function(context){
     if( ! context.store.getters['auth/isAuthenticated'] ) {
-        context.redirect("/login");
+        context.redirect(context.app.localePath('/login'));
     }
 }

@@ -1,12 +1,14 @@
 export const state = () => ({
-  company: "Balloon CMS",
-  title: "Balloon CMS",
+  ip: "localhost",
   fetchedData: []
 });
 
 export const mutations = {
   setData: (state, data) => {
     state.fetchedData = data;
+  },
+  SET_IP:(state,data) => {
+    state.ip = data;
   }
 };
 
@@ -19,17 +21,18 @@ export const actions = {
     );
   },
   
-  async nuxtServerInit(store) {
+  async nuxtServerInit(store,{req}) {
+    let ip = req.connection.remoteAddress || req.socket.remoteAddress;
+    if (ip.substr(0, 7) == "::ffff:") {
+      ip = ip.substr(7);
+    }
+    store.commit('SET_IP',ip);
     const token = this.$cookies.get('token');
     if (token) {
       try {
-        const { data } = await this.$axios.post(`${this.$config.userService}/auth`, { token: token } );
-        if( data.error ){
-          await store.commit('auth/LOGOUT');
-        } else {
-          await store.commit('auth/SET_TOKEN', token);
-          await store.commit('auth/SET_USER', data.user);
-        }
+        const { data } = await this.$axios.post('user-api/refresh', { token: token } );
+        await store.commit('auth/SET_TOKEN', token);
+        await store.commit('auth/SET_USER', data.user);
       } catch (error) {
         await store.commit('auth/LOGOUT');
         console.log(error);

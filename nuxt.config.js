@@ -1,34 +1,35 @@
-import colors from "vuetify/es5/util/colors";
+//import colors from "vuetify/es5/util/colors";
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate(titleChunk) {
-      return titleChunk ? titleChunk : process.env.PAGE_TITLE;
+      return titleChunk ? titleChunk : "Balloon CMS";
     },
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Ballon CMS" },
-      { property: "og:title", content: `${process.env.PAGE_TITLE} | Ballon CMS` },
+      { property: "og:title", content: `${process.env.COMPANY_NAME} | Ballon CMS` },
       { property: "og:url", content: `${process.env.BASE_URL}` },
       { property: "og:description", content: "Content Management System For Hot Air Balloon Companies" },
       { name: "type", content: "website" },
       { name: "Revisit-after", content: "7 Days" },
       { name: "keywords", content: "New Powerfull Hot Air Ballon CMS, Hot Air Ballon Website" },
-      { hid: "description", name: "description", content: "Content Management System For Hot Air Balloon Companies" }
-    ],
+      { hid: "description", name: "description", content: "Content Management System For Hot Air Balloon Companies" },
+    ]
   },
 
-  env: {
-   
+  server: {
+    host: "0.0.0.0"
   },
-
+  
   publicRuntimeConfig: {
-    BASE_URL: "http://localhost/"
+    BASE_URL: process.env.BASE_URL,
+    COMPANY_NAME: process.env.COMPANY_NAME
+    
   },
-
+  
   privateRuntimeConfig: {
-    apiSecret: process.env.API_SECRET,
     userService: process.env.USER_SERVICE
   },
 
@@ -42,18 +43,77 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     "~/plugins/axios",
-    "~/plugins/mixins"
+    '~/plugins/notifier.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
+  moment: {
+    defaultTimezone: process.env.TZ || "Europe/Istanbul"
+  },
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    "@nuxtjs/vuetify",
-    "nuxt-purgecss"
+    '@nuxtjs/moment',
+    ['@nuxtjs/vuetify', {
+      //defaultAssets: false
+    }],
+    [
+      'nuxt-purgecss', {
+        paths: [
+          'node_modules/@nuxtjs/vuetify/**/*.ts',
+          'node_modules/@nuxt/vue-app/template/**/*.html',
+          'node_modules/@nuxt/vue-app/template/**/*.vue'
+        ],
+        whitelist: [
+          'v-application',
+          'v-application--wrap'
+        ],
+        whitelistPatterns: () => [
+          /^v-((?!application).)*$/,
+          /^\.theme--light*/,
+          /.*-transition/
+        ],
+        whitelistPatternsChildren: [/^v-((?!application).)*$/, /^theme--light*/]
+      }
+    ],
+    [
+      'nuxt-i18n',
+      {
+        strategy: 'prefix_and_default',
+        detectBrowserLanguage: {
+          useCookie: true,
+          cookieKey: 'i18n_lang',
+          onlyOnRoot: true,  // recommended
+          alwaysRedirect: true
+        },
+        
+        defaultLocale: 'tr',
+        locales: [
+          {
+            code: 'en',
+            name: 'English',
+            file: "en.json",
+            iso: "en-US"
+          },
+          {
+            code: 'tr',
+            name: 'Türkçe',
+            file: "tr.json",
+            iso: "tr-TR"
+          }
+        ],
+        lazy: true,
+        langDir: 'locales/'
+      }
+     ]
   ],
+
+  build: {
+    extractCSS: true
+    // ...
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
@@ -62,12 +122,18 @@ export default {
     "cookie-universal-nuxt"
   ],
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  
+  proxy: {
+    '/user-api/': { target: process.env.USER_SERVICE, pathRewrite: {'^/user-api/': ''} },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
-    theme: {
+    /*theme: {
       dark: false,
       themes: {
         dark: {
@@ -81,8 +147,8 @@ export default {
         }
       }
     }
-  },
+    */
+  }
 
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {}
+ 
 };

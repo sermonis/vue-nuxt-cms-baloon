@@ -4,7 +4,17 @@ export const state = () => ({
 });
 
 export const actions = {
-  
+  async authUser(vuexContext, form){
+    try {
+      const { data } = await this.$axios.post('user-api/login', form);
+      vuexContext.commit('SET_TOKEN', data.token);
+      vuexContext.commit('SET_USER', data.user);
+      this.$router.push(this.app.localePath('/'));
+    } catch (error) {
+      this.$notifier.showMessage({ content: this.app.i18n.t(error.response.data.message, error.response.data.args) })
+      console.log(error.response);
+    }
+  }
 };
 
 export const mutations = {
@@ -22,13 +32,12 @@ export const mutations = {
     state.token = null;
     state.user = null;
     this.$cookies.remove('token');
-    this.$cookies.remove('expiresIn');
   },
 }
 
 export const getters = {
   isAuthenticated(state) {
-    return state.token != null
+    return state.token != null && state.user != null
   },
   getAuthKey(state) {
     return state.token

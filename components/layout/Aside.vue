@@ -1,5 +1,7 @@
 <template>
-  <v-navigation-drawer :value="drawer" app disable-resize-watcher>
+  <v-navigation-drawer  absolute
+      temporary
+      app >
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title"> Application </v-list-item-title>
@@ -37,7 +39,16 @@ export default {
       { title: "Login", icon: "mdi-help-box", to: "/login" },
     ],
   }),
+  
 
-  props: ["drawer"],
+  methods: {      
+  closeBtnClick() {
+    this.$emit('close');
+    setTimeout(() => { this.$router.push(this.returnRoute); }, this.closeDelay);
+  },
+  },
+mounted() {
+  setTimeout(() => { this.$emit('open'); }, this.closeDelay);
+}
 };
 </script>

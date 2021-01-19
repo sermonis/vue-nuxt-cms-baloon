@@ -1,0 +1,29 @@
+{
+  "hello": "Hello",
+  "pleaseWait": "Please wait",
+  "homePage": "Home Page",
+  "prevPage": "Previous Page",
+  "login": {
+    "logIn": "Log In",
+    "username": "User Name",
+    "password": "Password",
+    "userLogin": "User Login",
+    "welcome": "Welcome to Balloon CMS",
+    "enterPanel": "Please login to see the content",
+    "forgotPassword": "Forgot your password"
+  },
+  "passwordRecovery": {
+    "resetPassword": "Reset your password"
+  },
+  "error": {
+    "usernameBlank": "Username can not be blank",
+    "passwordBlank": "Password can not be blank",
+    "usernameLength": "Username should be between {min}-{max} characters.",
+    "passwordLength": "Password should be between {min}-{max} characters.",
+    "usernameContains": "Only alphanumeric characters, dash (-) and underscore (_) allowed",
+    "loginAttemps": "You have reached max login attemps. Please try again after 5 minutes",
+    "notValidUserPassword": "Username/password not valid",
+    "sessionExpired": "Your session has expired. Please login again"
+  },
+  "copyrightMessage": "© - {date} | All Rights Reserved - {name}"
+}

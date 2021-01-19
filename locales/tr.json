@@ -1,0 +1,30 @@
+{
+  "hello": "Merhaba",
+  "pleaseWait": "Lütfen Bekleyin",
+  "homePage": "Ana Sayfa",
+  "prevPage": "Önceki Sayfa",
+  "login": {
+    "logIn": "Giriş Yap",
+    "username": "Kullanıcı adı",
+    "password": "Şifre",
+    "userLogin": "Kullanıcı Girişi",
+    "welcome": "Balon Yönetim Sistemine hoş geldiniz",
+    "enterPanel": "Yönetim Paneline erişmek için lütfen giriş yapın",
+    "forgotPassword": "Şifrenizi mi unuttunuz"
+  },
+  "passwordRecovery": {
+    "resetPassword": "Şifrenizi sıfırlayın"
+  },
+  "error": {
+    "usernameBlank": "Kullanıcı adı boş bırakılamaz",
+    "passwordBlank": "Kullanıcı adı boş bırakılamaz",
+    "usernameLength": "Kullanıcı adınız en az {min} en fazla {max} karakter içermelidir",
+    "passwordLength": "Şifreniz en az {min} en fazla {max} karakter içermelidir",
+    "usernameContains": "Yalnızca harf(a-z), rakam (0-9), tire(-) ve alt tre (_) kullanılabilir",
+    "loginAttemps": "Maximum deneme sayısına ulaştınız. 5dk sonra tekrar deneyiniz",
+    "notValidUserPassword": "Kullanıcı veya şifre geçerli değil",
+    "sessionExpired": "Oturumunuz sona erdi. Lütfen giriş yapınız"
+  },
+
+  "copyrightMessage": "© {date} | Bütün hakları saklıdır - {name}"
+}
