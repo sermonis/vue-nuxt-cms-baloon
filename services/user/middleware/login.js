@@ -8,30 +8,35 @@
 //     ip = ip.substr(7);
 //   }
 //console.log(ip);
-module.exports = (req, res, next) => {
+module.exports = {
+  login: (req, res, next) => {
+    if (!req.body.username) {
+      throw new Error("400 || error.usernameBlank");
+    }
 
-  if (!req.body.username) {
-    throw new Error('400 || error.usernameBlank');
-  }
+    if (!req.headers["ip"]) {
+      throw new Error("400 || No ip provided");
+    }
 
-  if (!req.body.password) {
-    throw new Error('400 || error.passwordBlank');
-  }
+    if (!req.body.password) {
+      throw new Error("400 || error.passwordBlank");
+    }
 
-  if (req.body.username.length < 4 || req.body.username.length > 10) {
-    throw new Error('400 || error.usernameLength ||min: 4, max: 10');
-  }
+    if (req.body.username.length < 4 || req.body.username.length > 10) {
+      throw new Error("400 || error.usernameLength ||min: 4, max: 10");
+    }
 
-  if (req.body.password.length < 4 || req.body.password.length > 10) {
-    throw new Error('400 || error.passwordLength ||min: 4, max: 10');
-  }
+    if (req.body.password.length < 6 || req.body.password.length > 10) {
+      throw new Error("400 || error.passwordLength ||min: 4, max: 10");
+    }
 
-  if (!/(^[\w-]{4,10})+$/.test(req.body.password)) {
-    throw new Error('400 || usernameContains');
-  }
+    if (!/(^[\w-]{4,10})+$/.test(req.body.password)) {
+      throw new Error("400 || usernameContains");
+    }
 
-  if (!/(^[\w-]{4,10})+$/.test(req.body.username)) {
-    throw new Error('400 || usernameContains');
+    if (!/(^[\w-]{4,10})+$/.test(req.body.username)) {
+      throw new Error("400 || usernameContains");
+    }
+    next(); // pass the execution off to whatever request the client intended
   }
-  next(); // pass the execution off to whatever request the client intended
-}
+};

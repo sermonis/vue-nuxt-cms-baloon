@@ -27,10 +27,10 @@ export const actions = {
       ip = ip.substr(7);
     }
     store.commit('SET_IP',ip);
-    const token = this.$cookies.get('token');
+    const token = this.$cookies.get('sid');
     if (token) {
       try {
-        const { data } = await this.$axios.post('user-api/refresh', { token: token } );
+        const { data } = await this.$axios.post('user-service/refresh', { token: token } );
         await store.commit('auth/SET_TOKEN', token);
         await store.commit('auth/SET_USER', data.user);
       } catch (error) {

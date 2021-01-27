@@ -12,9 +12,9 @@
     <v-divider></v-divider>
     <v-list dense nav>
       <v-list-item
-        v-for="item in items"
-        :key="item.title"
-        :to="item.to"
+        v-for="(item, i ) in items"
+        :key="i"
+        :to="localePath(item.to)"
         link
         color="primary"
       >
@@ -57,6 +57,8 @@
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
+      
+      <UserMenu v-if="$store.getters['auth/isAuthenticated']"/>
     </v-app-bar>
 
     <v-main>
@@ -65,16 +67,8 @@
       </v-container>
       <ScroolToTop />
     </v-main>
-
-    <ScroolToTop />
     <Snackbar />
-    <v-footer :absolute="true" app class="text-center">
-      <v-flex md2 ></v-flex>
-          <v-flex md8  class="text-xs-center text-sm-body-2">
-            <span>{{ $t('copyrightMessage', { name: $config.COMPANY_NAME, date: new Date().getFullYear()  }) }}</span>
-          </v-flex>
-        <v-flex md2></v-flex>
-    </v-footer>
+    <Footer/>
   </v-app>
 </template>
 
@@ -84,8 +78,10 @@ export default {
   name: "default-layout",
   middleware: "auth",
   components: {
-    ScroolToTop: () => import("@/components/layout/ScroolToTop.vue"),
-    Snackbar: () => import('~/components/layout/SnackBar')
+    ScroolToTop: () => import("~/components/layout/ScroolToTop.vue"),
+    Snackbar: () => import('~/components/layout/SnackBar'),
+    UserMenu: () => import('~/components/layout/UserMenu'),
+    Footer: () => import('~/components/layout/Footer'),
   },
   data() {
     return {
@@ -94,6 +90,9 @@ export default {
         { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
         { title: "Inspare", icon: "mdi-image", to: "/inspire" },
         { title: "Photos", icon: "mdi-help-box", to: "/photos" },
+        { title: "Resimler", icon: "mdi-folder-multiple-image", to: "/images" },
+        { title: "Resimler2", icon: "mdi-folder-multiple-image", to: "/images/others" },
+        { title: "Tablolar", icon: "mdi-folder-multiple-image", to: "/tables" },
         { title: "Login", icon: "mdi-help-box", to: "/login" },
       ]
     };
@@ -105,16 +104,3 @@ export default {
   }
 };
 </script>
-<style>
-@-moz-keyframes spin {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-}
-.icon-spin {
-  animation: spin 2s infinite linear;
-}
-</style>

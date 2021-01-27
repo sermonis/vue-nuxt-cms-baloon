@@ -6,12 +6,12 @@ export const state = () => ({
 export const actions = {
   async authUser(vuexContext, form){
     try {
-      const { data } = await this.$axios.post('user-api/login', form);
+      const { data } = await this.$axios.post('user-service/login', form);
       vuexContext.commit('SET_TOKEN', data.token);
       vuexContext.commit('SET_USER', data.user);
-      this.$router.push(this.app.localePath('/'));
+      return true;
     } catch (error) {
-      this.$notifier.showMessage({ content: this.app.i18n.t(error.response.data.message, error.response.data.args) })
+      this.$notifier.showMessage( error.response.data )
       console.log(error.response);
     }
   }
@@ -20,7 +20,7 @@ export const actions = {
 export const mutations = {
   SET_TOKEN(state, token) {
     state.token = token
-    this.$cookies.set('token', state.token, {
+    this.$cookies.set('sid', state.token, {
       path: '/',
       maxAge: 60 * 60 * 24
     });
@@ -31,7 +31,7 @@ export const mutations = {
   LOGOUT(state) {
     state.token = null;
     state.user = null;
-    this.$cookies.remove('token');
+    this.$cookies.remove('sid');
   },
 }
 

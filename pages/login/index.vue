@@ -1,12 +1,11 @@
 <template>
   <v-row class="d-flex justify-center">
-    <v-col cols="12" sm="8" md="8">
+    <v-col cols="12" sm="12" md="8" lg="6" xl="6">
       <v-card class="evelation-12 card" :loading="loading">
         <v-window v-model="step">
-          <!--SignIn-->
           <v-window-item :value="1">
             <v-row>
-              <v-col cols="12" md="6" class="pt-6 pb-6" >
+              <v-col cols="12" md="6" class="pt-6 pb-6">
                 <v-card-text>
                   <v-form
                     class="signup-form-form"
@@ -16,29 +15,31 @@
                     lazy-validation
                   >
                     <h1 class="text-center display-1 mb-10" :class="`${bgColor}--text`">
-                      {{ $t('login.userLogin') }}
+                      {{ $t("login.userLogin") }}
                     </h1>
-                    <v-text-field 
-                      id="username"
+                    <v-text-field
                       v-model.trim="form.username"
                       :label="$t('login.username')"
-                      name="Username"
                       append-icon="mdi-account"
                       type="text"
                       :color="bgColor"
                       :rules="rules.username"
+                      @focus="readOnly = false"
+                      :readonly="readOnly"
+                      @keypress.enter="validate"
                       required
                     />
                     <v-text-field
-                      id="password"
                       v-model.trim="form.password"
                       :label="$t('login.password')"
-                      name="Password"
                       :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                       @click:append="showPassword = !showPassword"
                       :type="showPassword ? 'password' : 'text'"
                       :color="bgColor"
                       :rules="rules.password"
+                      @focus="readOnly = false"
+                      @keypress.enter="validate"
+                      :readonly="readOnly"
                       required
                     />
                     <div class="text-center">
@@ -47,27 +48,44 @@
                         :class="`${bgColor}--text`"
                         @click="step = 2"
                       >
-                        {{ $t('login.forgotPassword') }}?
+                        {{ $t("login.forgotPassword") }}?
                       </a>
                     </div>
-                    <div class="text-center mt-6">
-                      <v-btn
-                        :disabled="!valid || loading"
-                        color="primary"
-                        class="mr-4"
-                        @click="validate"
-                      >
-                        <v-icon v-if="loading"  class="icon-spin mr-3">mdi-cog-outline</v-icon>
-                        {{ loading ? $t('pleaseWait')+'...' : $t('login.logIn') }}
-                      </v-btn>
+                    <div class="text-center mt-6" style="min-height: 50px">
+                        
+                      <v-scroll-x-transition >
+                        <v-icon 
+                          v-show="loginOK" 
+                          color="success"
+                          x-large
+                          >mdi-check
+                        </v-icon>
+                      </v-scroll-x-transition>
+
+                      <v-scroll-x-transition>
+                        <v-btn
+                          v-if="!hideButton"
+
+                          :disabled="!valid || loading"
+                          :loading="loading"
+                          color="primary"
+                          class="mr-4"
+                          @click="validate"
+                        >
+                          {{ $t('login.logIn') }}
+                        </v-btn>
+                      </v-scroll-x-transition>
+                  
                       
                     </div>
                   </v-form>
                 </v-card-text>
               </v-col>
               <v-col cols="12" md="6" class="darken-2 vcenter" :class="`${bgColor}`">
-                <div class="align-content-center ">
-                  <div class="text-center d-flex justify-center align-content-center mt-10">
+                <div class="align-content-center">
+                  <div
+                    class="text-center d-flex justify-center align-content-center mt-10"
+                  >
                     <v-img
                       class="mx-2 text-center"
                       src="/images/logo.png"
@@ -76,12 +94,12 @@
                     />
                   </div>
 
-                  <v-card-text :class="`${fgColor}--text`" >
+                  <v-card-text :class="`${fgColor}--text`">
                     <p class="mb-3 text-center">
-                      {{ $t('login.welcome') }}
+                      {{ $t("login.welcome") }}
                     </p>
                     <p class="mb-3 text-center">
-                      {{ $t('login.enterPanel') }}
+                      {{ $t("login.enterPanel") }}
                     </p>
                   </v-card-text>
                 </div>
@@ -107,7 +125,7 @@
                 <v-card-text>
                   <v-form class="signup-form-form">
                     <h1 class="text-center display-1 mb-10" :class="`${bgColor}--text`">
-                      {{ $t('passwordRecovery.resetPassword') }}
+                      {{ $t("passwordRecovery.resetPassword") }}
                     </h1>
                     <v-text-field
                       id="login"
@@ -136,41 +154,56 @@
 <script>
 export default {
   layout: "login",
+  name: "Login",
   data() {
     return {
       step: 1,
+      loginOK: false,
+      hideButton: false,
       form: {
         username: "",
-        password: ""  
+        password: "",
       },
       rules: {
-        username : [
-          v => !!v || this.$t('error.usernameBlank'),
-          v => (v && v.length <= 10 && v.length >= 4) || this.$t('error.usernameLength', { min: 4, max: 10 }),
-          v =>  /^[a-zA-Z0-9-_]+$/.test(v) || this.$t('error.usernameContains')
+        username: [
+          (v) => !!v || this.$t("error.usernameBlank"),
+          (v) => (v && v.length <= 10 && v.length >= 4) || this.$t("error.usernameLength", { min: 4, max: 10 }),
+          (v) => /^[a-zA-Z0-9-_]+$/.test(v) || this.$t("error.usernameContains"),
         ],
-        password : [
-          v => !!v || this.$t('error.passwordBlank'),
-          v => (v && v.length <= 10 && v.length >= 4) || this.$t('error.passwordLength', { min: 4, max: 10 }),
-          v =>  /^[a-zA-Z0-9-_]+$/.test(v) || this.$t('error.usernameContains')
+        password: [
+          (v) => !!v || this.$t("error.passwordBlank"),
+          (v) =>  (v && v.length <= 10 && v.length >= 4) || this.$t("error.passwordLength", { min: 4, max: 10 }),
+          (v) => /^[a-zA-Z0-9-_]+$/.test(v) || this.$t("error.usernameContains"),
         ],
       },
-      valid:false,
+      valid: false,
       loading: false,
       login: "",
       bgColor: "indigo",
       fgColor: "white",
       showPassword: true,
+      readOnly: true,
     };
   },
   methods: {
-    async validate () {
+    async validate() {
       this.loading = true;
       setTimeout(() => {
         this.loading = false;
       }, 2000);
-      if(this.$refs.form.validate()){
-        await this.$store.dispatch('auth/authUser',this.form);
+      if (this.$refs.form.validate()) {
+        const loggedIn = await this.$store.dispatch("auth/authUser", this.form);
+        if (loggedIn) {
+          this.hideButton = true;
+
+          setTimeout(() => {
+            this.loginOK = true;
+          }, 500);
+
+          setTimeout(() => {
+            this.$router.push(this.localePath('/'));
+          }, 2000);
+        }
       }
     },
   },

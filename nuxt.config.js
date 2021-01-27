@@ -1,4 +1,6 @@
-//import colors from "vuetify/es5/util/colors";
+import colors from "vuetify/es5/util/colors";
+
+import i18n from './config/i18n'
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -26,7 +28,6 @@ export default {
   publicRuntimeConfig: {
     BASE_URL: process.env.BASE_URL,
     COMPANY_NAME: process.env.COMPANY_NAME
-    
   },
   
   privateRuntimeConfig: {
@@ -34,7 +35,8 @@ export default {
   },
 
   loading: {
-    color: "#8B0715"
+    color: "#8B0715",
+    height:"3px"
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -43,7 +45,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     "~/plugins/axios",
-    '~/plugins/notifier.js'
+    '~/plugins/notifier',
+    '~/plugins/mixins'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -57,7 +60,15 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/moment',
     ['@nuxtjs/vuetify', {
-      //defaultAssets: false
+      defaultAssets: {
+        font: {
+          family: 'Quicksand' 
+        },
+        icons: 'mdi'
+      }, 
+      
+        
+      
     }],
     [
       'nuxt-purgecss', {
@@ -94,18 +105,19 @@ export default {
           {
             code: 'en',
             name: 'English',
-            file: "en.json",
+            //file: "en.json",
             iso: "en-US"
           },
           {
             code: 'tr',
             name: 'Türkçe',
-            file: "tr.json",
+            //file: "tr.json",
             iso: "tr-TR"
           }
         ],
-        lazy: true,
-        langDir: 'locales/'
+        //lazy: true,
+        //langDir: 'locales/'
+        vueI18n: i18n
       }
      ]
   ],
@@ -127,7 +139,7 @@ export default {
   },
   
   proxy: {
-    '/user-api/': { target: process.env.USER_SERVICE, pathRewrite: {'^/user-api/': ''} },
+    '/user-service/': { target: process.env.USER_SERVICE, pathRewrite: {'^/user-service/': ''} },
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -146,8 +158,8 @@ export default {
           success: colors.green.accent3
         }
       }
-    }
-    */
+    }*/
+    
   }
 
  

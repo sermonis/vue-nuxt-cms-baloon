@@ -16,7 +16,7 @@ module.exports = class Service {
   }
 
   async findOne(obj) {
-    return this.model.findOne(obj);
+    return this.model.findOne(obj);  
   }
 
 };

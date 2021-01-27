@@ -5,6 +5,7 @@
   "prevPage": "Previous Page",
   "login": {
     "logIn": "Log In",
+    "logOut": "Log Out",
     "username": "User Name",
     "password": "Password",
     "userLogin": "User Login",

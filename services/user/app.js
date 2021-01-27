@@ -9,7 +9,21 @@ const cors        = require("cors");
 const userRoute   = require('./routes/user');
 
 app.set('trust proxy', "1");
+
 app.use(helmet());
+
+
+// Log  Errors in to file
+
+const fs          = require('fs');
+const path        = require('path');
+
+logger.token('error', (req, res) => req.error);
+app.use(logger(':remote-addr - :remote-user [:date[web]] ":method :url :status :res[content-length] :error', {
+  skip: (req, res) => res.statusCode < 500,
+  stream: fs.createWriteStream(path.join(__dirname, `/logs/${new Date().toISOString().split('T')[0]}.log`), {flags: 'a'})
+}));
+
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,7 +31,6 @@ app.use(helmet());
 app.use(cors({ origin: process.env.ORIGIN.split(" ") }));
 
 const rateLimiterMiddleware = require('../middleware/limiter');
-
 require('./mongo-connection');
 app.use(rateLimiterMiddleware);
 app.use(userRoute);
@@ -26,12 +39,14 @@ app.use(userRoute);
  
 app.get("/", async (req, res) => {
   const moment = require('moment');
+
+  moment('20-10-2020').toDate()
   //res.send(moment("1611001460279").format('YYYY-MM-DD H:m:s') + "\n" + moment("2021-01-18 01:24:20").unix());
   //res.send(new Date("2021-01-18T20:45:16.262+00:00").toString())
 // res.send(moment("YYYY-mm-dd 00:00:01").toDate())
   //res.send(moment(moment().format("YYYY-MM-DD 00:00:01")).toDate());
   //res.send(moment("2021-01-18T23:03:39.111+00:00").format("YY-MM-DD HH:mm:ss"))
-  res.send(new Date().toISOString())
+  res.send(new Date('2020-01-20').toISOString())
 });
   
   // catch 404 and forward to error handler
@@ -45,7 +60,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+  req.error = err.message;
   if (err.message.substr(4, 2) === "||") {
     const msg = err.message.split("||");
     res.status(msg[0].trim());
@@ -60,6 +75,7 @@ app.use(function(err, req, res, next) {
       });
   } else {
       // render the error page
+    
     console.error(err.message)
     res.status(err.status || 500);
     res.send(err.message);

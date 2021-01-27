@@ -5,6 +5,7 @@
   "prevPage": "Önceki Sayfa",
   "login": {
     "logIn": "Giriş Yap",
+    "logOut": "Çıkış Yap",
     "username": "Kullanıcı adı",
     "password": "Şifre",
     "userLogin": "Kullanıcı Girişi",
