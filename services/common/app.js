@@ -6,7 +6,7 @@ const dotenv      = require('dotenv').config();
 const helmet      = require("helmet");
 
 const cors        = require("cors");
-const userRoute   = require('./routes/user');
+const userRoute   = require('./user/routes/user');
 
 app.set('trust proxy', "1");
 
@@ -31,7 +31,7 @@ app.use(helmet());
 app.use(cors({ origin: process.env.ORIGIN.split(" ") }));
 
 const rateLimiterMiddleware = require('../middleware/limiter');
-require('./mongo-connection');
+require('../db/mongo-connection');
 app.use(rateLimiterMiddleware);
 app.use(userRoute);
 

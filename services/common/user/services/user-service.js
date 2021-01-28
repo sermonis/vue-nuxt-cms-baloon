@@ -1,4 +1,8 @@
-module.exports = class Service {
+const UserModel = require("../models/user-model");
+
+class UserService {
+  model = UserModel;
+
   async findAll() {
     return this.model.find();
   }
@@ -18,5 +22,7 @@ module.exports = class Service {
   async findOne(obj) {
     return this.model.findOne(obj);  
   }
+  
+}
 
-};
+module.exports = new UserService();

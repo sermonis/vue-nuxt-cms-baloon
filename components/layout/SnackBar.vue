@@ -16,7 +16,7 @@ export default {
       show: false,
       message: "",
       color: "",
-      icon: "",
+      icon: ""
     };
   },
   created() {
@@ -28,6 +28,6 @@ export default {
         this.show = true;
       }
     });
-  },
-};
+  }
+}
 </script>

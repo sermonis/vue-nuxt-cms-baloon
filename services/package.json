@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./user/bin/www",
-    "user-service-dev": "DEBUG=user:* nodemon ./user/bin/www"
+    "start": "node ./common/bin/www",
+    "common-dev": "DEBUG=common:* nodemon ./common/bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -12,7 +12,6 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-rate-limit": "^5.2.3",
     "helmet": "^4.3.1",
     "http-errors": "1.8.0",
     "ioredis": "^4.19.4",

@@ -4,4 +4,4 @@ export default ({ app, store }, inject) => {
       store.commit("snackbar/showMessage", data);
     }
   });
-};
+}

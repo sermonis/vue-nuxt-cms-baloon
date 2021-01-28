@@ -2,14 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 
-const redis = require("../../helpers/init-redis");
+const redis = require("../../../helpers/init-redis");
 
 const userService = require("../services/user-service");
 
 const controller = require("../middleware/login");
 
-const { signAccessToken, verifyAccessToken } = require("../helpers/jtw");
-
+const { signAccessToken, verifyAccessToken } = require("../../../helpers/jtw");
+/*
 const authCheck = require("../../middleware/auth");
 
 router.post("/auth", authCheck, async (req, res, next) => {
@@ -18,7 +18,7 @@ router.post("/auth", authCheck, async (req, res, next) => {
     user: req.user
   });
 });
-
+*/
 router.post("/refresh", async (req, res, next) => {
   try {
     const token = req.body.token;
@@ -31,7 +31,7 @@ router.post("/refresh", async (req, res, next) => {
     const user = await verifyAccessToken(token);
 
     const redisData = await redis.get(user.sid);
-    
+
     if (!redisData) {
       console.error("old redisData not found");
       throw new Error("401 || error.sessionExpired");
