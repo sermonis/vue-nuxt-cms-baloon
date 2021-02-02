@@ -1,28 +1,13 @@
 const UserModel = require("../models/user-model");
+const BaseService = require('../../../db/base-service');
 
-class UserService {
-  model = UserModel;
-
-  async findAll() {
-    return this.model.find();
-  }
-
-  async add(item) {
-    return this.model.create(item);
-  }
-
-  async del(itemId) {
-    return this.model.deleteOne({ _id: itemId });
-  }
-
-  async find(itemId) {
-    return this.model.findById(itemId);
-  }
-
-  async findOne(obj) {
-    return this.model.findOne(obj);  
-  }
-  
+class UserService extends BaseService{
+  model = UserModel; 
 }
 
 module.exports = new UserService();
+
+
+const regex = /^([0-9]+)\.([0-9]{2})/g;
+const value = "12.53";
+regex.test(value)

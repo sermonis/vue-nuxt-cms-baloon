@@ -30,7 +30,7 @@ export const actions = {
     const token = this.$cookies.get('sid');
     if (token) {
       try {
-        const { data } = await this.$axios.post('user-service/refresh', { token: token } );
+        const { data } = await this.$axios.post('user-service/user/refresh', { token: token } );
         await store.commit('auth/SET_TOKEN', token);
         await store.commit('auth/SET_USER', data.user);
       } catch (error) {

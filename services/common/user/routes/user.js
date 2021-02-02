@@ -6,6 +6,8 @@ const redis = require("../../../helpers/init-redis");
 
 const userService = require("../services/user-service");
 
+const logService = require("../services/log-service");
+
 const controller = require("../middleware/login");
 
 const { signAccessToken, verifyAccessToken } = require("../../../helpers/jtw");
@@ -19,6 +21,16 @@ router.post("/auth", authCheck, async (req, res, next) => {
   });
 });
 */
+
+router.get('/', async (req, res, next ) => {
+  try {
+    const logs = await logService.model.find().sort('-createdAt');
+    res.send(logs);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 router.post("/refresh", async (req, res, next) => {
   try {
     const token = req.body.token;
@@ -49,6 +61,7 @@ router.post("/refresh", async (req, res, next) => {
     res.send({
       user: data.user
     });
+
   } catch (error) {
     next(error);
   }
@@ -63,7 +76,7 @@ router.post("/login", controller.login, async (req, res, next) => {
     }
 
     const user = await userService.findOne({ username: req.body.username });
-
+    
     if (!user) {
       await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
       throw new Error("400 || error.notValidUserPassword");
@@ -75,7 +88,12 @@ router.post("/login", controller.login, async (req, res, next) => {
       await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
       throw new Error("400 || error.notValidUserPassword");
     }
-
+    logService.add({
+      user: user._id,
+      module: "Login",
+      content: `${user.name}'s Sisteme giriş yapıldı`,
+      ip: req.headers["ip"]
+    });
     user.lastLogin = new Date().toISOString();
     user.lastLoginIp = req.headers["ip"];
     await user.save();

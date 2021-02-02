@@ -1,5 +1,5 @@
 <template>
-  <v-row class="d-flex justify-center">
+  <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="8" lg="6" xl="6">
       <v-card class="evelation-12 card" :loading="loading">
         <v-window v-model="step">
@@ -88,7 +88,7 @@
                   >
                     <v-img
                       class="mx-2 text-center"
-                      src="/images/logo.png"
+                      src="/images/logo2.png"
                       max-height="150"
                       max-width="150"
                     />
@@ -152,11 +152,24 @@
 </template>
 
 <script>
+//import {VMoney} from "v-money"
 export default {
   layout: "login",
   name: "Login",
+  
   data() {
     return {
+      /*
+      price: '',
+      money: {
+        decimal: '.',
+        thousands: ',',
+        prefix: '',
+        suffix: '',
+        precision: 2,
+        masked: false 
+      },
+      */
       step: 1,
       loginOK: false,
       hideButton: false,
@@ -201,11 +214,12 @@ export default {
           }, 500);
 
           setTimeout(() => {
-            this.$router.push(this.localePath('/'));
+            //this.$router.push(this.localePath('/'));
+            this.$router.push('/');
           }, 2000);
         }
       }
     },
-  },
+  }
 };
 </script>

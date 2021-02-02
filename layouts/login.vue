@@ -1,7 +1,12 @@
 <template>
-  <v-app>
+  <v-app dark >
     <v-app-bar app dense elevation="6">
+      
+      <ToggleColorMod/>
+      <!--
       <nuxt-link :to="localePath('/about')"
+      !-->
+      <nuxt-link to="/login"
         ><v-img
           class="mx-2"
           src="/images/logo.png"
@@ -9,7 +14,7 @@
           max-width="40"
           contain
       /></nuxt-link>
-
+      <!---
       <select v-model="selectedValue" @change="onChange(selectedValue)">
         <option
           v-for="(locale, index) in $i18n.locales"
@@ -19,6 +24,7 @@
           {{ locale.name }}
         </option>
       </select>
+      !-->
     </v-app-bar>
     <v-main>
       <v-container fluid>
@@ -36,6 +42,14 @@
 export default {
   name: "login-layout",
   middleware: ["not-auth"],
+  components: {
+    Snackbar: () => import('~/components/common/snack-bar'),
+    UserMenu: () => import('~/components/common/user-menu'),
+    Footer: () => import('~/components/common/footer'),
+    ToggleColorMod: () => import('~/components/common/toggle-color-mod'),
+  }
+  
+  /*
   data() {
     return {
       selectedValue: "",
@@ -50,15 +64,11 @@ export default {
       //this.$router.replace(this.switchLocalePath(event));
     },
   },
-  components: {
-    ScroolToTop: () => import("@/components/layout/ScroolToTop"),
-    Snackbar: () => import("@/components/layout/SnackBar"),
-    Footer: () => import("@/components/layout/Footer"),
-  },
   computed: {
     availableLocales() {
-      return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
+      return this.$i18n.locales.filter(i => i.code !== this.$i18n.locale);
     },
   },
+  */
 };
 </script>

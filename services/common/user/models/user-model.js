@@ -3,10 +3,9 @@ const bcrypt = require("bcrypt");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
     required: true,
-    minLength: 4,
-    maxLength: 10
+    minlength: 4,
+    maxlength: 10,
   },
   password: {
     type: String,
@@ -15,12 +14,12 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 32
+    maxlength: 32
   },
   surname: {
     type: String,
     required: true,
-    maxLength: 32
+    maxlength: 32
   },
   email: {
     type: String,
@@ -39,10 +38,6 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 1
   },
-  dateCreated: {
-    type: Date,
-    default: Date.now
-  },
   lastLogin: {
     type: Date,
     default: Date.now
@@ -51,7 +46,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "-"
   }
-});
+},{ timestamps: true });
 
 UserSchema.pre("save", async function(next) {
   try {
@@ -76,8 +71,6 @@ UserSchema.methods.isValidPassword = async function(password) {
     throw error;
   }
 };
-
-UserSchema.plugin(require("mongoose-autopopulate"));
 
 const UserModel = mongoose.model("Users", UserSchema);
 

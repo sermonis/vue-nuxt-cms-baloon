@@ -13,7 +13,8 @@
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.8.2",
     "nuxt": "^2.14.6",
-    "nuxt-i18n": "^6.18.0"
+    "nuxt-i18n": "^6.18.0",
+    "v-money": "^0.8.1"
   },
   "devDependencies": {
     "@nuxtjs/moment": "^1.6.1",

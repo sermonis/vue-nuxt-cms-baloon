@@ -14,7 +14,7 @@
       <v-list-item
         v-for="(item, i ) in items"
         :key="i"
-        :to="localePath(item.to)"
+        :to="item.to"
         link
         color="primary"
       >
@@ -30,8 +30,8 @@
     <!--  -->
   </v-navigation-drawer>
     <v-app-bar app dense elevation="4">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-divider vertical />
+      <v-app-bar-nav-icon color="black" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      
       <nuxt-link to="/">
         <v-img
           class="mx-2"
@@ -78,10 +78,10 @@ export default {
   name: "default-layout",
   middleware: "auth",
   components: {
-    ScroolToTop: () => import("~/components/layout/ScroolToTop.vue"),
-    Snackbar: () => import('~/components/layout/SnackBar'),
-    UserMenu: () => import('~/components/layout/UserMenu'),
-    Footer: () => import('~/components/layout/Footer'),
+    ScroolToTop: () => import("~/components/common/scrool-to-top.vue"),
+    Snackbar: () => import('~/components/common/snack-bar'),
+    UserMenu: () => import('~/components/common/user-menu'),
+    Footer: () => import('~/components/common/footer'),
   },
   data() {
     return {

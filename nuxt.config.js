@@ -1,6 +1,7 @@
-import colors from "vuetify/es5/util/colors";
 
+import colors from "vuetify/es5/util/colors";
 import i18n from './config/i18n'
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -65,10 +66,7 @@ export default {
           family: 'Quicksand' 
         },
         icons: 'mdi'
-      }, 
-      
-        
-      
+      }
     }],
     [
       'nuxt-purgecss', {
@@ -145,8 +143,8 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
-    /*theme: {
-      dark: false,
+    theme: {
+      dark:false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -158,9 +156,6 @@ export default {
           success: colors.green.accent3
         }
       }
-    }*/
-    
+    }
   }
-
- 
 };

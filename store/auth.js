@@ -6,7 +6,7 @@ export const state = () => ({
 export const actions = {
   async authUser(vuexContext, form){
     try {
-      const { data } = await this.$axios.post('user-service/login', form);
+      const { data } = await this.$axios.post('user-service/user/login', form);
       vuexContext.commit('SET_TOKEN', data.token);
       vuexContext.commit('SET_USER', data.user);
       return true;

@@ -22,7 +22,8 @@ export default {
   created() {
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "snackbar/showMessage") {
-        this.message = this.$t(state.snackbar.content, state.snackbar.args) || state.snackbar.content;
+        //this.message = this.$t(state.snackbar.content, state.snackbar.args) || state.snackbar.content;
+        this.message = state.snackbar.content;
         this.icon = state.snackbar.color ? "mdi-checkbox-marked-circle": "mdi-alert-circle-outline";
         this.color = state.snackbar.color ? "success" : "red";
         this.show = true;
