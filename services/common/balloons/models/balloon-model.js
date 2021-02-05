@@ -14,6 +14,7 @@ const BalloonSchema = new mongoose.Schema({
   volume: {
     type: Number,
     default: 0,
+    set: v => Math.trunc(v)
   },
   passengerCapacity: {
     type: Number,
@@ -41,6 +42,13 @@ const BalloonSchema = new mongoose.Schema({
       default: '-'
     }
   },
+  crew: [{
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Staff',
+    autopopulate: {
+      select: "_id name username"
+    }
+  }],
   burner: {
     brand:{
       type: String,

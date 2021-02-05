@@ -14,13 +14,13 @@
       <p>{{ error.message || 'Page not found' }}</p>
       <div class="buttons-con">
         <div class="action-link-wrap">
-          <a onclick="history.back(-1)" class="link-button link-back-button">{{ $t('prevPage') }}</a>
+          <a onclick="history.back(-1)" class="link-button link-back-button">Geri Dön</a>
           <nuxt-link
-            :to="localePath('/')"
+            to="/"
             class="link-button"
             tag="a"
           >
-            {{ $t('homePage') }}
+            Ana Sayfa
           </nuxt-link>
         </div>
       </div>

@@ -9,13 +9,13 @@ Vue.mixin({
       return this.$store.state.auth.token;
     },
     _loggedIn() {
-      return this._user;
+      return this._user && this._token;
     }
   },
   methods: {
     async $logout() {
       await this.$store.commit("auth/LOGOUT");
-      await this.$router.go(this.localePath("/"));
+      await this.$router.push("/login");
     }
   }
 });

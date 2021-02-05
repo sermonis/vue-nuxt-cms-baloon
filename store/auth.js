@@ -4,18 +4,44 @@ export const state = () => ({
 });
 
 export const actions = {
-  async authUser(vuexContext, form){
+
+  checkPermission(store, permission){
+    
+    if( ["admin","manager"].includes(store.state.user.rank) ){
+      return true;
+    } else if ( store.state.user.permissions && permission in store.state.user.permissions ) {
+      return true;
+    }
+    throw new Error('Bu sayfaya giriş izniniz yok. İzinlerinizi değiştirmek için lütfen yönetimle iletişime geçiniz')
+  },
+
+  permissionLink(store, permission){
+    
+    if( ["admin","manager"].includes(store.state.user.rank) ){
+      return true;
+    } else if ( store.state.user.permissions && permission in store.state.user.permissions ) {
+      return true;
+    }
+    throw new Error('Bu sayfaya giriş izniniz yok. İzinlerinizi değiştirmek için lütfen yönetimle iletişime geçiniz')
+  },
+
+  async authUser(store, form){
     try {
       const { data } = await this.$axios.post('user-service/user/login', form);
-      vuexContext.commit('SET_TOKEN', data.token);
-      vuexContext.commit('SET_USER', data.user);
+      store.commit('SET_TOKEN', data.token);
+      store.commit('SET_USER', data.user);
       return true;
     } catch (error) {
       this.$notifier.showMessage( error.response.data )
       console.log(error.response);
     }
+  },
+
+  logout(store){
+    store.commit('LOGOUT');
+    this.$router.push('/login');
   }
-};
+}
 
 export const mutations = {
   SET_TOKEN(state, token) {

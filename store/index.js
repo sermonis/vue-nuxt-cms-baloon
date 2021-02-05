@@ -13,6 +13,7 @@ export const mutations = {
 };
 
 export const actions = {
+  
   async get(vuexContext) {
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(2000);

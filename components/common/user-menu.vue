@@ -14,9 +14,7 @@
             elevation="2"
             class="mr-1"
           >
-            <v-avatar
-              size="28"
-            >
+            <v-avatar size="28" >
               <img
                 src="https://scontent.fasr1-2.fna.fbcdn.net/v/t31.0-8/13920368_10154293188232088_7401713779660045502_o.jpg?_nc_cat=101&ccb=2&_nc_sid=09cbfe&_nc_ohc=KZt9PmEeUcwAX9pTpZt&_nc_ht=scontent.fasr1-2.fna&oh=f443913d7997518e6cfedd2b9072e0e1&oe=602AF886"
                 alt=""
@@ -59,11 +57,11 @@
           <v-list-item>
             <v-list-item-action>
               <v-switch
-                v-model="message"
-                color="purple"
+                v-model="$vuetify.theme.dark"
+                @click="darkMode"
               ></v-switch>
             </v-list-item-action>
-            <v-list-item-title>Enable messages</v-list-item-title>
+            <v-list-item-title>Renk Modu <v-icon >mdi-theme-light-dark</v-icon></v-list-item-title>
           </v-list-item>
 
           <v-list-item>
@@ -72,6 +70,18 @@
                 v-model="hints"
                 color="purple"
               ></v-switch>
+            </v-list-item-action>
+            <v-list-item-title>Enable hints</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-action>
+              <v-btn
+               
+                color="purple"
+                @click="$store.dispatch('auth/logout')"
+              >
+                hadi git
+              </v-btn>
             </v-list-item-action>
             <v-list-item-title>Enable hints</v-list-item-title>
           </v-list-item>
@@ -89,7 +99,6 @@
           
           <v-btn
             :loading="loading3"
-            :disabled="loading3"
             color="blue-grey"
             class="ma-2 white--text"
             @click="logOut"
@@ -121,6 +130,9 @@
       logOut() {
         this.loader = 'loading3';
         this.$logout();
+      },
+      darkMode() {
+        localStorage.setItem("dark-theme", this.$vuetify.theme.dark.toString());
       }
     },
     watch: {
@@ -133,6 +145,24 @@
         this.loader = null;
       },
     },
+    mounted() {
+      const theme = localStorage.getItem("dark-theme");
+      if (theme) {
+        if (theme === "true") {
+          this.$vuetify.theme.dark = true;
+        } else {
+          this.$vuetify.theme.dark = false;
+        }
+      } else if ( window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ) {
+        this.$vuetify.theme.dark = true;
+        localStorage.setItem("dark-theme", this.$vuetify.theme.dark.toString());
+      }
+    },
+    computed: {
+      iconColor() {
+        return this.$vuetify.theme.dark ? 'yellow' : 'blue' 
+      }
+    }
   }
 </script>
 

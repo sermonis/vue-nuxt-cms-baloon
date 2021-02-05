@@ -1,5 +1,6 @@
 
 import colors from "vuetify/es5/util/colors";
+import tr from 'vuetify/es5/locale/tr'
 import i18n from './config/i18n'
 
 export default {
@@ -19,6 +20,9 @@ export default {
       { name: "Revisit-after", content: "7 Days" },
       { name: "keywords", content: "New Powerfull Hot Air Ballon CMS, Hot Air Ballon Website" },
       { hid: "description", name: "description", content: "Content Management System For Hot Air Balloon Companies" },
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: 'images/favicon.ico' }
     ]
   },
 
@@ -122,38 +126,64 @@ export default {
 
   build: {
     extractCSS: true
-    // ...
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
-    "cookie-universal-nuxt"
+    "cookie-universal-nuxt",
+    "nuxt-socket-io"
   ],
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     proxy: true
   },
+
+  io: {
+    // module options
+   
+    sockets: [
+      {
+        name: 'balloons',
+        url: `${process.env.BALLOON_SERVICE}`,
+        
+      }
+    ]
+  },
   
   proxy: {
     '/user-service/': { target: process.env.USER_SERVICE, pathRewrite: {'^/user-service/': ''} },
+    '/balloon-service/': { target: process.env.BALLOON_SERVICE, pathRewrite: {'^/balloon-service/': ''} }
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
+    lang: {
+      locales: { tr },
+      current: 'tr',
+    },
     customVariables: ["~/assets/variables.scss"],
     theme: {
       dark:false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          primary: '#21CFF3',
+          accent: '#FF4081',
+          secondary: '#ffe18d',
+          success: '#4CAF50',
+          info: '#2196F3',
+          warning: '#FB8C00',
+          error: '#FF5252'
+        },
+        light: {
+          primary: '#1976D2',
+          accent: '#e91e63',
+          secondary: '#30b1dc',
+          success: '#4CAF50',
+          info: '#2196F3',
+          warning: '#FB8C00',
+          error: '#FF5252'
         }
       }
     }

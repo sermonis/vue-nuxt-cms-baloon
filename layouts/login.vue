@@ -2,7 +2,7 @@
   <v-app dark >
     <v-app-bar app dense elevation="6">
       
-      <ToggleColorMod/>
+      
       <!--
       <nuxt-link :to="localePath('/about')"
       !-->
@@ -25,6 +25,8 @@
         </option>
       </select>
       !-->
+      <v-spacer />
+      <ToggleColorMod/>
     </v-app-bar>
     <v-main>
       <v-container fluid>

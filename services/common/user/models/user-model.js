@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 4,
-    maxlength: 10,
+    maxlength: 10
   },
   password: {
     type: String,
@@ -35,8 +35,9 @@ const UserSchema = new mongoose.Schema({
     default: []
   },
   rank: {
-    type: Number,
-    default: 1
+    type: String,
+    default: "user",
+    enum: ["user","admin","manager","blocked"]
   },
   lastLogin: {
     type: Date,

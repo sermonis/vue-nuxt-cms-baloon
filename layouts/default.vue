@@ -3,33 +3,11 @@
     <v-navigation-drawer v-model="drawer" absolute
       temporary
       app >
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title class="title"> Application </v-list-item-title>
-        <v-list-item-subtitle> subtext </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-    <v-divider></v-divider>
-    <v-list dense nav>
-      <v-list-item
-        v-for="(item, i ) in items"
-        :key="i"
-        :to="item.to"
-        link
-        color="primary"
-      >
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+      
+      <NavList/>
 
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <!--  -->
-  </v-navigation-drawer>
-    <v-app-bar app dense elevation="4">
+    </v-navigation-drawer>
+    <v-app-bar app dense elevation="4" class="no-print">
       <v-app-bar-nav-icon color="black" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
       <nuxt-link to="/">
@@ -58,7 +36,7 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
       
-      <UserMenu v-if="$store.getters['auth/isAuthenticated']"/>
+      <UserMenu v-if="_loggedIn"/>
     </v-app-bar>
 
     <v-main>
@@ -68,7 +46,7 @@
       <ScroolToTop />
     </v-main>
     <Snackbar />
-    <Footer/>
+    <Footer class="no-print"/>
   </v-app>
 </template>
 
@@ -82,25 +60,75 @@ export default {
     Snackbar: () => import('~/components/common/snack-bar'),
     UserMenu: () => import('~/components/common/user-menu'),
     Footer: () => import('~/components/common/footer'),
+    NavList: () => import('~/components/common/nav-list.vue')
   },
   data() {
     return {
-      drawer: false,
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard", to: "/" },
-        { title: "Inspare", icon: "mdi-image", to: "/inspire" },
-        { title: "Photos", icon: "mdi-help-box", to: "/photos" },
-        { title: "Resimler", icon: "mdi-folder-multiple-image", to: "/images" },
-        { title: "Resimler2", icon: "mdi-folder-multiple-image", to: "/images/others" },
-        { title: "Tablolar", icon: "mdi-folder-multiple-image", to: "/tables" },
-        { title: "Login", icon: "mdi-help-box", to: "/login" },
-      ]
-    };
+      drawer: false
+      
+    }
   },
   computed: {
     data() {
 
     }
   }
-};
+}
 </script>
+<style>
+  .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
+  .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > td,
+  .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > td {
+    height: 24px;
+  }
+  .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > th,
+  .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th,
+  .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > th {
+    height: 24px;
+  }
+  @media print {
+   
+    .no-print, .no-print *
+    {
+      display: none !important;
+    }
+    .v-data-footer, .v-input {
+      display: none !important;
+    }
+    .container {
+      padding-top: -50px;
+      margin-top: -50px;
+      top:0;
+      box-shadow: none !important;
+      border: 0;
+      border-radius: 0;
+    }
+    .v-application .elevation-1 {
+      box-shadow: none !important;
+    }
+    .v-data-table, .v-card, .v-sheet, .elevation-1{
+      padding: 0;
+      margin: 0;
+      box-shadow: none !important;
+      border: 0 !important;
+      color: #000000 !important;
+    }
+    
+    .v-data-table-header th {
+        color: #000000 !important;
+    }
+    .v-data-table tbody tr, .v-data-table tbody td, .v-data-table-header tr, .v-data-table-header th {
+            border-bottom: 1px solid black  !important;
+    }
+    .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
+    .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > td,
+    .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > td {
+      height: 20px  !important;
+    }
+    .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > th,
+    .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th,
+    .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > th {
+      height: 20px  !important;
+    }
+  }
+</style>

@@ -5,10 +5,15 @@
  */
 
 const app = require("../app");
+
 const debug = require("debug")("user:server");
+
 const http = require("http");
 
 const port = normalizePort(process.env.PORT || "4000");
+
+const {  verifyAccessToken } = require("../../helpers/jtw");
+
 app.set("port", port);
 
 /**
@@ -17,9 +22,49 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+var io = require('socket.io')(server,{
+  cors: {
+    origin: process.env.ORIGIN.split(" "),
+  }
+});
+
+app.set('io', io);
+
+io.use( async (socket, next) => {
+  try {
+    if( ! socket.handshake.auth.token ){
+      throw new Error('401 || Geçersiz oturum');
+    }
+    const user = await verifyAccessToken(socket.handshake.auth.token);
+    const redis = require("../../helpers/init-redis");
+    const redisData = await redis.get(user.sid);
+
+    if (!redisData) {
+      console.error("socket old redisData not found");
+      return next(new Error('Authentication error'));
+    }
+    
+    const  data  = JSON.parse(redisData);
+
+    if ( data.accessToken != socket.handshake.auth.token || socket.handshake.headers["user-agent"] != data.userAgent ) {
+      console.log("socket token or useragent changed");
+      return next(new Error('Authentication error'));
+    }
+
+    socket.decoded = data.user;
+    next()
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}).on('connection', socket => {
+  console.log(`${socket.decoded.username} connected with ${socket.id} socked id`);
+  //Whenever someone disconnects this piece of code executed
+  socket.on('disconnect', function () {
+     console.log(`${socket.decoded.username.toUpperCase()} DISCONNECTED ${socket.id} `);
+  });
+});
+
 
 server.listen(port);
 server.on("error", onError);

@@ -18,12 +18,31 @@ router.post("/auth", authCheck, async (req, res, next) => {
 });
 */
 
+router.post('/list', async (req, res, next ) => {
+  try {
+    const balloons = await BalloonService.findAll();
+    res.send(balloons);
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.get('/balloons', async (req, res, next ) => {  
+  const io = req.app.get('io');
+    
+  res.send("ok")
+
+});
 router.get('/', async (req, res, next ) => {
     //const balloon = await BalloonService.add({ registration: "TC-BUE" })
-    //const balloon = await BalloonService.add({ registration: "TC-BUN", volume: 1.12 })
-    const balloons = await BalloonService.Balloons();
-    res.status(200);
-    res.send(/^([0-9]+)?(.[0-9]{2})?/g.test("12.2-") ? "regex ok" : "failled")
+    //const balloon = await BalloonService.add({ registration: "TC-BUJ", volume: 0 })
+    
+    const io = req.app.get('io');
+    io.sockets.emit('event1', "world");
+    //console.log(io.sockets);
+    res.send("ok")
+    
+
 });
 
 

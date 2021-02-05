@@ -24,6 +24,7 @@ router.post("/auth", authCheck, async (req, res, next) => {
 
 router.get('/', async (req, res, next ) => {
   try {
+    
     const logs = await logService.model.find().sort('-createdAt');
     res.send(logs);
   } catch (error) {
@@ -88,12 +89,19 @@ router.post("/login", controller.login, async (req, res, next) => {
       await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
       throw new Error("400 || error.notValidUserPassword");
     }
+
+    if( user.rank == "blocked" ){
+      await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
+      throw new Error("400 || Bu hesap yasaklıdır");
+    }
+
     logService.add({
       user: user._id,
       module: "Login",
       content: `${user.name}'s Sisteme giriş yapıldı`,
       ip: req.headers["ip"]
     });
+    
     user.lastLogin = new Date().toISOString();
     user.lastLoginIp = req.headers["ip"];
     await user.save();

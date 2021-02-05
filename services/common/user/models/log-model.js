@@ -1,4 +1,4 @@
-const excapeHtml = str => str.replace(/&/g, "&amp;")
+/*const excapeHtml = str => str.replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#x27;")
     .replace(/=/g, "&#61;")
@@ -7,7 +7,7 @@ const excapeHtml = str => str.replace(/&/g, "&amp;")
     .replace(/\//g, "&#x2F;")
     .replace(/\\/g, "&#x5C;")
     .replace(/`/g, "&#96;");
-
+*/
 const mongoose = require("mongoose");
 
 const LogSchema = new mongoose.Schema(
@@ -17,7 +17,6 @@ const LogSchema = new mongoose.Schema(
       required: true,
       ref: "Users",
       autopopulate: {
-        maxDepth: 1,
         select: "_id name surname username"
       }
     },
