@@ -1,13 +1,12 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" absolute
-      temporary
-      app >
-      
+    <v-navigation-drawer v-model="drawer" temporary app >
+
       <NavList/>
 
     </v-navigation-drawer>
-    <v-app-bar app dense elevation="4" class="no-print">
+    
+    <v-app-bar app dense elevation="1" class="no-print">
       <v-app-bar-nav-icon color="black" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
       <nuxt-link to="/">
@@ -43,7 +42,6 @@
       <v-container fluid>
         <nuxt />
       </v-container>
-      <ScroolToTop />
     </v-main>
     <Snackbar />
     <Footer class="no-print"/>
@@ -56,7 +54,7 @@ export default {
   name: "default-layout",
   middleware: "auth",
   components: {
-    ScroolToTop: () => import("~/components/common/scrool-to-top.vue"),
+    //ScroolToTop: () => import("~/components/common/scrool-to-top.vue"),
     Snackbar: () => import('~/components/common/snack-bar'),
     UserMenu: () => import('~/components/common/user-menu'),
     Footer: () => import('~/components/common/footer'),
@@ -65,7 +63,6 @@ export default {
   data() {
     return {
       drawer: false
-      
     }
   },
   computed: {
@@ -79,13 +76,22 @@ export default {
   .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
   .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > td,
   .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > td {
-    height: 24px;
+    height: 24px !important;
+    padding: 0 0 0 3px !important;
   }
   .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > th,
   .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th,
   .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > th {
-    height: 24px;
+    height: 24px !important;
   }
+
+  .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > td{
+  padding: 0 3px 0  3px !important;
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
   @media print {
    
     .no-print, .no-print *

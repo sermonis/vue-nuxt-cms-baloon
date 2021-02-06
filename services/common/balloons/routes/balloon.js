@@ -6,7 +6,7 @@ const redis = require("../../../helpers/init-redis");
 
 const BalloonService = require('../services/balloon-service');
 
-const { signAccessToken, verifyAccessToken } = require("../../../helpers/jtw");
+const { authUser } = require("../../../helpers/jtw");
 /*
 const authCheck = require("../../middleware/auth");
 
@@ -18,7 +18,7 @@ router.post("/auth", authCheck, async (req, res, next) => {
 });
 */
 
-router.post('/list', async (req, res, next ) => {
+router.post('/list',authUser, async (req, res, next ) => {
   try {
     const balloons = await BalloonService.findAll();
     res.send(balloons);

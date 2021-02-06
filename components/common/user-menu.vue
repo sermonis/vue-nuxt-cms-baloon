@@ -73,18 +73,7 @@
             </v-list-item-action>
             <v-list-item-title>Enable hints</v-list-item-title>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <v-btn
-               
-                color="purple"
-                @click="$store.dispatch('auth/logout')"
-              >
-                hadi git
-              </v-btn>
-            </v-list-item-action>
-            <v-list-item-title>Enable hints</v-list-item-title>
-          </v-list-item>
+          
         </v-list>
 
         <v-card-actions>
@@ -153,9 +142,6 @@
         } else {
           this.$vuetify.theme.dark = false;
         }
-      } else if ( window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ) {
-        this.$vuetify.theme.dark = true;
-        localStorage.setItem("dark-theme", this.$vuetify.theme.dark.toString());
       }
     },
     computed: {
@@ -165,5 +151,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped></style>

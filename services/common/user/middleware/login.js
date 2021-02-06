@@ -12,7 +12,7 @@
 module.exports = {
   login: (req, res, next) => {
     if (!req.body.username) {
-      throw new Error("400 || error.usernameBlank");
+      throw new Error("400 || Kullanıcı adı boş bırakılamaz");
     }
 
     if (!req.headers["ip"]) {
@@ -20,23 +20,23 @@ module.exports = {
     }
 
     if (!req.body.password) {
-      throw new Error("400 || error.passwordBlank");
+      throw new Error("400 || Şifre adı boş bırakılamaz");
     }
 
     if (req.body.username.length < 4 || req.body.username.length > 10) {
-      throw new Error("400 || error.usernameLength ||min: 4, max: 10");
+      throw new Error("400 || Kullanıcı adınız en az 4 en fazla 10 karakter içermelidir");
     }
 
-    if (req.body.password.length < 6 || req.body.password.length > 10) {
-      throw new Error("400 || error.passwordLength ||min: 4, max: 10");
+    if (req.body.password.length < 4 || req.body.password.length > 10) {
+      throw new Error("400 || Şifreniz adınız en az {min} en fazla {max} karakter içermelidir");
     }
 
     if (!/(^[\w-]{4,10})+$/.test(req.body.password)) {
-      throw new Error("400 || usernameContains");
+      throw new Error("400 || Yalnızca harf(a-z), rakam (0-9), tire(-) ve alt tre (_) kullanılabilir");
     }
 
     if (!/(^[\w-]{4,10})+$/.test(req.body.username)) {
-      throw new Error("400 || usernameContains");
+      throw new Error("400 || Yalnızca harf(a-z), rakam (0-9), tire(-) ve alt tre (_) kullanılabilir");
     }
     next(); // pass the execution off to whatever request the client intended
   }

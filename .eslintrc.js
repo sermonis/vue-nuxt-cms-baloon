@@ -23,6 +23,7 @@ module.exports = {
     camelcase: 0,
     proseWrap: ["off"],
     "linebreak-style": 0,
+    "vue/valid-v-slot": ["off"]
   },
   globals: {
     $nuxt: true
@@ -30,4 +31,4 @@ module.exports = {
   parserOptions: {
     parser: "babel-eslint"
   }
-};
+}

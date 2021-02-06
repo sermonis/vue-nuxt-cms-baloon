@@ -9,17 +9,7 @@ export const actions = {
     
     if( ["admin","manager"].includes(store.state.user.rank) ){
       return true;
-    } else if ( store.state.user.permissions && permission in store.state.user.permissions ) {
-      return true;
-    }
-    throw new Error('Bu sayfaya giriş izniniz yok. İzinlerinizi değiştirmek için lütfen yönetimle iletişime geçiniz')
-  },
-
-  permissionLink(store, permission){
-    
-    if( ["admin","manager"].includes(store.state.user.rank) ){
-      return true;
-    } else if ( store.state.user.permissions && permission in store.state.user.permissions ) {
+    } else if ( store.state.user.permissions && store.state.user.permissions.includes(permission) ) {
       return true;
     }
     throw new Error('Bu sayfaya giriş izniniz yok. İzinlerinizi değiştirmek için lütfen yönetimle iletişime geçiniz')
@@ -32,14 +22,16 @@ export const actions = {
       store.commit('SET_USER', data.user);
       return true;
     } catch (error) {
-      this.$notifier.showMessage( error.response.data )
-      console.log(error.response);
+      this.$notifier.showMessage( { message : error.response.data } );
     }
   },
 
   logout(store){
     store.commit('LOGOUT');
-    this.$router.push('/login');
+    setTimeout(() => {
+      this.$router.push('/login');
+    }, 1500);
+    
   }
 }
 
@@ -48,7 +40,7 @@ export const mutations = {
     state.token = token
     this.$cookies.set('sid', state.token, {
       path: '/',
-      maxAge: 60 * 60 * 24
+      maxAge: 60 * 60 * 24 * 30
     });
   },
   SET_USER(state, user) {

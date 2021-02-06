@@ -16,6 +16,11 @@ Vue.mixin({
     async $logout() {
       await this.$store.commit("auth/LOGOUT");
       await this.$router.push("/login");
+    },
+
+    $itemExist(item){
+      return item || "-" 
     }
+    
   }
 });

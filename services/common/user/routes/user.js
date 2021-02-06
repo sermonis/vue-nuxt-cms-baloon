@@ -57,7 +57,7 @@ router.post("/refresh", async (req, res, next) => {
       throw new Error("401 || error.sessionExpired");
     }
 
-    await redis.setex(user.sid, 60 * 60 * 24, redisData);
+    await redis.setex(user.sid, 60 * 60 * 24 * 30, redisData);
 
     res.send({
       user: data.user
@@ -73,21 +73,21 @@ router.post("/login", controller.login, async (req, res, next) => {
     const loginAttemps = await redis.get(req.headers["ip"]);
 
     if (loginAttemps && loginAttemps > 5) {
-      throw new Error("400 || error.loginAttemps");
+      throw new Error("400 || Maximum deneme sayısına ulaştınız. 5dk sonra tekrar deneyiniz");
     }
 
     const user = await userService.findOne({ username: req.body.username });
     
     if (!user) {
       await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
-      throw new Error("400 || error.notValidUserPassword");
+      throw new Error("400 || Kullanıcı veya şifre geçerli değil");
     }
 
     const validPassword = await user.isValidPassword(req.body.password);
 
     if (!validPassword) {
       await redis.setex( req.headers["ip"], 300, loginAttemps ? parseInt(loginAttemps) + 1 : 1 );
-      throw new Error("400 || error.notValidUserPassword");
+      throw new Error("400 || Kullanıcı veya şifre geçerli değil");
     }
 
     if( user.rank == "blocked" ){
@@ -116,7 +116,7 @@ router.post("/login", controller.login, async (req, res, next) => {
       user: user._doc
     };
 
-    await redis.setex(user._id, 60 * 60 * 24, JSON.stringify(redisData));
+    await redis.setex(user._id, 60 * 60 * 24 * 30, JSON.stringify(redisData));
 
     res.send({
       token: token,

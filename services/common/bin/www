@@ -22,18 +22,20 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
+/**
+ * Create Socket
+ */
 var io = require('socket.io')(server,{
   cors: {
     origin: process.env.ORIGIN.split(" "),
   }
 });
 
-app.set('io', io);
 
 io.use( async (socket, next) => {
   try {
     if( ! socket.handshake.auth.token ){
-      throw new Error('401 || Geçersiz oturum');
+      return next( new Error('401 || Authentication error') );
     }
     const user = await verifyAccessToken(socket.handshake.auth.token);
     const redis = require("../../helpers/init-redis");
@@ -65,6 +67,7 @@ io.use( async (socket, next) => {
   });
 });
 
+app.set('io', io);
 
 server.listen(port);
 server.on("error", onError);

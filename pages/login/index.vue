@@ -216,7 +216,7 @@ export default {
           setTimeout(() => {
             //this.$router.push(this.localePath('/'));
             this.$router.push('/');
-          }, 2000);
+          }, 1500);
         }
       }
     },

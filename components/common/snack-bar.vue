@@ -27,6 +27,10 @@ export default {
         this.icon = state.snackbar.color ? "mdi-checkbox-marked-circle": "mdi-alert-circle-outline";
         this.color = state.snackbar.color ? "success" : "red";
         this.show = true;
+
+        if( this.message == "Oturumunuz sona erdi" ){
+          this.$store.dispatch('auth/logout');
+        }
       }
     });
   }

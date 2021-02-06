@@ -18,7 +18,7 @@
   },
   "error": {
     "usernameBlank": "Kullanıcı adı boş bırakılamaz",
-    "passwordBlank": "Kullanıcı adı boş bırakılamaz",
+    "passwordBlank": "Şifre adı boş bırakılamaz",
     "usernameLength": "Kullanıcı adınız en az {min} en fazla {max} karakter içermelidir",
     "passwordLength": "Şifreniz en az {min} en fazla {max} karakter içermelidir",
     "usernameContains": "Yalnızca harf(a-z), rakam (0-9), tire(-) ve alt tre (_) kullanılabilir",

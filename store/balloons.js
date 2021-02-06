@@ -8,8 +8,7 @@ export const actions = {
       const { data } = await this.$axios.post('balloon-service/balloon/list');
       store.commit('SET_BALLOONS', data);
     } catch (error) {
-      this.$notifier.showMessage( error.response.data )
-      console.log(error.response);
+      this.$notifier.showMessage( { message : error.response.data } );
     }
   }
 }
