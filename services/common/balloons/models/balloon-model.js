@@ -49,6 +49,13 @@ const BalloonSchema = new mongoose.Schema({
       select: "_id name username"
     }
   }],
+  customer: [{
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Customer',
+    autopopulate: {
+      select: "_id name username"
+    }
+  }],
   burner: {
     brand:{
       type: String,
@@ -106,14 +113,10 @@ const BalloonSchema = new mongoose.Schema({
   cylinders: Array,
   insurance: Date,
   reviewCertificate: Date,
-  operator: {
-    type: String,
-    default: '0'
-  },
   status: {
-    type: Number,
-    default: 1,
-    enum: [0,1,2]
+    type: String,
+    default: "Aktif",
+    enum: ["Aktif","Pasif","Kiralik"]
   }
 });
 

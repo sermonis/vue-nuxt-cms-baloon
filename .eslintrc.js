@@ -23,7 +23,17 @@ module.exports = {
     camelcase: 0,
     proseWrap: ["off"],
     "linebreak-style": 0,
-    "vue/valid-v-slot": ["off"]
+    'vue/valid-v-slot': ['error', { allowModifiers: true }],
+    'max-len': ['error', 140, 4, {
+      ignoreUrls: true,
+      ignoreTemplateLiterals: true,
+      ignoreStrings: true,
+    }],
+    'max-statements': ['error', 24],
+    quotes: ['error', 'single', {
+      avoidEscape: true,
+      allowTemplateLiterals: true,
+    }],
   },
   globals: {
     $nuxt: true

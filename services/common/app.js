@@ -41,7 +41,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   req.error = err.message;
-  if (err.message.substr(4, 2) === "||") {
+  if (err.message.substr(4, 2) == "||") {
     const msg = err.message.split("||");
     res.status(msg[0].trim());
     res.send(msg[1].trim());

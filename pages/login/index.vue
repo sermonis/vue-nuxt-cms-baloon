@@ -200,10 +200,9 @@ export default {
   },
   methods: {
     async validate() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 2000);
+      
+      this.loading = true; setTimeout(() => { this.loading = false; }, 2000);
+
       if (this.$refs.form.validate()) {
         const loggedIn = await this.$store.dispatch("auth/authUser", this.form);
         if (loggedIn) {

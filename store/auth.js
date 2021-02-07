@@ -22,7 +22,7 @@ export const actions = {
       store.commit('SET_USER', data.user);
       return true;
     } catch (error) {
-      this.$notifier.showMessage( { message : error.response.data } );
+      this.$notifier.showMessage( { message : error.response?.data || error } );
     }
   },
 
