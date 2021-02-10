@@ -3,6 +3,13 @@ const BaseService = require('../../../db/base-service');
 
 class UserService extends BaseService{
   model = UserModel; 
+
+  permissions = [
+    "addBalloon",
+    "editBalloon",
+    "removeBalloon"
+  ]
+
 }
 
 module.exports = new UserService();

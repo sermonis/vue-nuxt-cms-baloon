@@ -9,37 +9,43 @@ const BalloonSchema = new mongoose.Schema({
     type: String,
     uppercase: true,
     required: true,
-    unique: true
+    unique: true,
+    maxlength: 6
   },
   volume: {
     type: Number,
-    default: 0,
+    default: 1,
+    min: 0,
     set: v => Math.trunc(v)
   },
   passengerCapacity: {
     type: Number,
-    default: 0
+    default: 0,
+    min: 0,
+    set: v => Math.trunc(v)
   },
   pilotCapacity: {
     type: Number,
-    default: 1
+    default: 1,
+    min: 1,
+    set: v => Math.trunc(v)
   },
   envelope: {
     brand:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     type:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     serial:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     date:{
       type: String,
-      default: '-'
+      maxlength: 6
     }
   },
   crew: [{
@@ -49,65 +55,65 @@ const BalloonSchema = new mongoose.Schema({
       select: "_id name username"
     }
   }],
-  customer: [{
+  customer:{
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Customer',
     autopopulate: {
-      select: "_id name username"
+      select: "_id name"
     }
-  }],
+  },
   burner: {
     brand:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     type:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     serial:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     date:{
       type: String,
-      default: '-'
+      maxlength: 6
     }
   },
   basket: {
     brand:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     type:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     serial:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     date:{
       type: String,
-      default: '-'
+      maxlength: 6
     }
   },
   sensor: {
     brand:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     type:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     serial:{
       type: String,
-      default: '-'
+      maxlength: 6
     },
     date:{
       type: String,
-      default: '-'
+      maxlength: 6
     }
   },
   cylinders: Array,

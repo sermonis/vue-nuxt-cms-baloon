@@ -4,10 +4,6 @@ export const state = () => ({
 
 export const mutations = {
 
-  setData: (state, data) => {
-    state.fetchedData = data;
-  },
-
   SET_IP:(state,data) => {
     state.ip = data;
   }

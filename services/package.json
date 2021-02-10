@@ -17,7 +17,7 @@
     "ioredis": "^4.19.4",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.11",
+    "mongoose": "^5.11.15",
     "mongoose-autopopulate": "^0.12.3",
     "morgan": "^1.10.0",
     "rate-limiter-flexible": "^2.2.1",

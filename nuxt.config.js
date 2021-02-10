@@ -126,6 +126,7 @@ export default {
 
   build: {
     extractCSS: true
+    
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)

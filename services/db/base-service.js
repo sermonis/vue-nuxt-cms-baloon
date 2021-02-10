@@ -1,4 +1,5 @@
 module.exports = class Service {
+  
   async findAll( obj = {} ) {
     return this.model.find(obj);
   }
@@ -18,4 +19,14 @@ module.exports = class Service {
   async findOne(obj) {
     return this.model.findOne(obj);
   }
+
+  async findByIdAndUpdate(obj) {
+    const { _id } = obj;  delete obj._id;
+    return this.model.findByIdAndUpdate( _id, obj, { new: true } );
+  }
+
+  async findOneAndUpdate( search, obj ) {
+    return this.model.findOneAndUpdate( search, obj, { new: true } );
+  }
+
 }

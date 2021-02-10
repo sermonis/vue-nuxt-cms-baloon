@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@nuxtjs/moment": "^1.6.1",
-    "@nuxtjs/vuetify": "^1.11.2",
+    "@nuxtjs/vuetify": "^1.11.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",

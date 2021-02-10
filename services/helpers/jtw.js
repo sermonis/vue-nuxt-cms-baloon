@@ -62,7 +62,7 @@ module.exports = {
         
         const data = JSON.parse(result);
 
-        if( !( req.headers['ip'] && req.headers['ip'] == data.ip) ||  data.accessToken != token && !( req.headers['user-agent'] && req.headers['user-agent'] == data.userAgent ) ){
+        if( !( req.headers['ip'] && req.headers['ip'] == data.ip &&  data.accessToken == token &&  req.headers['user-agent'] && req.headers['user-agent'] == data.userAgent ) ){
           console.log("ip or token or useragent changed"); // Prints "bar"
           throw new Error("401 || Oturumunuz sona erdi");
         }

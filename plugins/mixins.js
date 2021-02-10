@@ -20,7 +20,11 @@ Vue.mixin({
 
     $itemExist(item){
       return item || "-" 
+    },
+
+    $formatDate(date, format = 'DD.MM.YYYY'){
+      if(! date ) return null;
+      return this.$moment(date).format(format)
     }
-    
   }
 });
