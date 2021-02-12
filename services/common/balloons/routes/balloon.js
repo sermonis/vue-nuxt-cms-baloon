@@ -28,6 +28,8 @@ module.exports = (router) => {
 
       const balloon = await BalloonService.add(req.body);
 
+      await BalloonService.createLog(req, "eklendi");
+
       res.send(balloon);
 
     } catch (error) {
@@ -44,7 +46,17 @@ module.exports = (router) => {
         throw new Error('401 || Böyle bir balon bulunamadı');
       }
 
-      const balloon = await BalloonService.findByIdAndUpdate({ ...req.body } )
+      const balloon = await BalloonService.findByIdAndUpdate({ ...req.body } );
+
+     
+      const log = (balloon,post) => {
+        if( balloon.status != post.status ){
+          return post.status == "Aktif" ? "durumu aktifleştirildi" : "durumu pasifleştirildi";
+        }
+        return "düzenlendi";
+      }
+
+      await BalloonService.createLog(req, log(check,req.body));
 
       res.send( balloon );
 
@@ -59,8 +71,8 @@ module.exports = (router) => {
       //const balloon = await BalloonService.add({ registration: "TC-BUE" })
       //const balloon = await BalloonService.add({ registration: "TC-BUJ", volume: 0 })
       
-      const io = req.app.get('io');
-      io.sockets.emit('event1', "world");
+      //const io = req.app.get('io');
+      //io.sockets.emit('event1', "world");
       //console.log(io.sockets);
 
 
@@ -73,6 +85,7 @@ module.exports = (router) => {
         customer: '',
         insurance: ''
       }
+
       function clean(obj) {
         for (var propName in obj) {
           if ( ! obj[propName] ) {
@@ -82,40 +95,22 @@ module.exports = (router) => {
         return obj
       }
       //res.send(clean(editedItem))
-
+      /*
       try {
-        await BalloonService.model.updateMany({},{
-          envelope:{
-            brand: '',
-            type: '',
-            serial: '',
-            date: '',
-          },
-          basket:{
-            brand: '',
-            type: '',
-            serial: '',
-            date: '',
-          },
-          burner:{
-            brand: '',
-            type: '',
-            serial: '',
-            date: '',
-          },
-          sensor:{
-            brand: '',
-            type: '',
-            serial: '',
-            date: '',
-          }
-        })
+       
         const balloons = await BalloonService.findAll();
         res.send(balloons);
       } catch (error) {
         res.send(error)
       }
+
+      */
+
+      const logService = require("../../user/services/log-service");
       
+      const logs = await logService.model.find().sort('-createdAt')
+     
+      res.send(logs)
       
 
   });

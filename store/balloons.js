@@ -33,8 +33,8 @@ export const mutations = {
   },
   
   EDIT_BALLOON(state, data) {
-    //state.list[state.list.findIndex(item => item._id === data._id)] = {...data}
-    Object.assign(state.list[state.list.findIndex(item => item._id === data._id)], data);
+    state.list.splice(state.list.findIndex(item => item._id === data._id), 1, data);
+    //Object.assign(state.list[state.list.findIndex(item => item._id === data._id)], data);
   },
 
   SET_BALLOONS(state, data) {

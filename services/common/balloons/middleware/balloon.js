@@ -41,6 +41,27 @@ const defaults = post => {
     throw new Error("400 || Lütfen geçerli bir pilot sayısı giriniz");
   }
 
+  /** 
+   * insurance 
+  */
+
+  if( post.hasOwnProperty('insurance') ){
+    if( ! ( ! post.insurance ||  /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+/.test( post.insurance ) || /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/.test( post.insurance ) ) ){
+      throw new Error("400 || Lütfen geçerli bir sigorta tarihi giriniz");
+    }
+  }
+
+  /** 
+   * reviewCertificate 
+  */
+
+  if( post.hasOwnProperty('reviewCertificate') ){
+    if( ! ( ! post.reviewCertificate ||  /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+/.test( post.reviewCertificate ) || /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/.test( post.reviewCertificate ) ) ){
+      throw new Error("400 || Lütfen geçerli bir sigorta tarihi giriniz");
+    }
+  }
+
+
 };
 
 module.exports = {

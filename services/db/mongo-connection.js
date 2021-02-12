@@ -4,7 +4,8 @@ async function main() {
   await mongoose.connect(uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
   });
   console.log("mongo connected");
 }

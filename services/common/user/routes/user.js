@@ -75,10 +75,10 @@ module.exports = (router) => {
         throw new Error("400 || Bu hesap yasaklıdır");
       }
 
-      logService.add({
+      await logService.add({
         user: user._id,
         module: "Login",
-        content: `${user.name}'s Sisteme giriş yapıldı`,
+        content: `Sisteme giriş yapıldı`,
         ip: req.headers["ip"]
       });
       

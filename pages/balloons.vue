@@ -1,5 +1,4 @@
 <template>
-<div>
   <v-card>
     <v-card-title>
       <v-icon color="indigo" class="mr-2">mdi-airballoon-outline</v-icon>
@@ -73,14 +72,9 @@
         </v-hover>
       </template>
     </v-data-table>
-    
+    <Drawer :drawer.sync="drawer" />
+    <Dialog :defaultForm="defaultForm" :dialog.sync="dialog" :form.sync="form"/>
   </v-card>
-  
-  <Drawer :drawer.sync="drawer" />
-  <Dialog :defaultForm="defaultForm" :dialog.sync="dialog" :form.sync="form"/>
-  
-</div>
-  
 </template>
 
 <script>
@@ -143,28 +137,39 @@ export default {
           type: '',
           serial: '',
           date: '',
+          weight: 0,
+          mtow: 0,
+          mlm: 0
         },
         basket: {
           brand: '',
           type: '',
           serial: '',
-          date: '',
+          weight: 0,
+          date: ''
         },
         burner: {
           brand: '',
           type: '',
           serial: '',
-          date: '',
+          weight: 0,
+          date: ''
         },
         sensor: {
           brand: '',
           type: '',
           serial: '',
-          date: '',
+          ttBrand: '',
+          ttType: '',
+          ttSerial: '',
+          tabletBrand: '',
+          tabletType: '',
+          tabletSerial: ''
         },
         status: "Aktif",
         reviewCertificate: "",
-        insurance: ""
+        insurance: "",
+        cylinders: []
       },
       defaultForm: {
         _id: "default",
@@ -181,17 +186,22 @@ export default {
           type: '',
           serial: '',
           date: '',
+          weight: 0,
+          mtow: 0,
+          mlm: 0
         },
         basket: {
           brand: '',
           type: '',
           serial: '',
+          weight: 0,
           date: '',
         },
         burner: {
           brand: '',
           type: '',
           serial: '',
+          weight: 0,
           date: '',
         },
         sensor: {
@@ -199,11 +209,19 @@ export default {
           type: '',
           serial: '',
           date: '',
+          ttBrand: '',
+          ttType: '',
+          ttSerial: '',
+          tabletBrand: '',
+          tabletType: '',
+          tabletSerial: ''
         },
         status: "Aktif",
         reviewCertificate: '',
-        insurance: ''
-      }
+        insurance: '',
+        cylinders: []
+      },
+      filter: ["Aktif"]
     };
   },
   mounted() {
@@ -217,6 +235,13 @@ export default {
       this.$notifier.showMessage({ message });
       console.log(message); // world
     });
+
+    window.onbeforeprint = () => {
+      this.headers.splice( this.headers.findIndex(item => item.text == "#"), 1 );
+      setTimeout(() => {
+        this.headers.push({ text: '#', value: 'actions', align: "center", sortable: false,  width: "0.01%"  })
+      }, 1500);
+    }
   },
   methods: {
     dateExist(item){
@@ -229,7 +254,10 @@ export default {
       return String(item).replace(/(.)(?=(\d{3})+$)/g, "$1,");
     },
     editItem(item){
-      if( ! item.customer ) item.customer = { _id: "default", name: this.$config.COMPANY_NAME }
+      console.log(item);
+      if( ! item.customer ) {
+        item.customer = { _id: "default", name: this.$config.COMPANY_NAME }
+      } 
       this.form = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     }

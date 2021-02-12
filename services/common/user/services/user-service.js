@@ -7,7 +7,6 @@ class UserService extends BaseService{
   permissions = [
     "addBalloon",
     "editBalloon",
-    "removeBalloon"
   ]
 
 }

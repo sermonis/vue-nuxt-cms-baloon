@@ -21,7 +21,8 @@
               <v-tab key="envelope" @click="step = 2" class="white--text">Kubbe</v-tab>
               <v-tab key="basket" @click="step = 3" class="white--text">Sepet</v-tab>
               <v-tab key="burner" @click="step = 4" class="white--text">Burner</v-tab>
-              <v-tab key="cylders" @click="step = 5" class="white--text">Yakıt</v-tab>
+              <v-tab key="cylnders" @click="step = 5" class="white--text">Yakıt</v-tab>
+              <v-tab key="sensor" @click="step = 6" class="white--text">Sensör</v-tab>
             </v-tabs>
           </template>
         </v-toolbar>
@@ -106,20 +107,407 @@
                   <v-col cols="12" sm="6" md="4">
                     <DatePicker :model.sync="editedItem.reviewCertificate" :label="'Uçuşa Elverişlilik'" :hint="'Uçuşa Elverişlilik tarihi'"/>
                   </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Toplam Ağırlık"
+                      readonly
+                      type="Number"
+                      :value="totalWeight"
+                      dense
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-window-item>
             <!-- Temel Bilgiler !-->
-            <!-- Ünite Bilgileri !-->
+            <!-- Kubbe Bilgileri !-->
             <v-window-item :value="2" >
               <v-container>
                 <v-row>
-                  
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Marka"
+                      hint="Marka giriniz"
+                      type="text"
+                      maxlength="32"
+                      v-model="editedItem.envelope.brand"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Tip/Model"
+                      hint="Tip/Model giriniz"
+                      type="text"
+                      maxlength="32"
+                      v-model="editedItem.envelope.type"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Seri No"
+                      hint="Seri No giriniz"
+                      type="text"
+                      maxlength="32"
+                      v-model="editedItem.envelope.serial"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Ağırlık"
+                      hint="Ağırlık giriniz"
+                      type="number"
+                      min="0"
+                      :rules="rules.unitWeight"
+                      v-model.number="editedItem.envelope.weight"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Hacim *"
+                      hint="Balon Hacmini giriniz"
+                      type="Number"
+                      min="1"
+                      v-model.number="editedItem.volume"
+                      :rules="rules.volume"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="Üretim Tarihi"
+                      hint="Üretim Tarihi giriniz"
+                      type="text"
+                      v-model="editedItem.envelope.date"
+                      :rules="rules.unitDate"
+                      v-mask="'##/####'"
+                      placeholder="ay/yıl"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="MTOW"
+                      hint="Maximum kalkış ağırlığı"
+                      type="number"
+                      min="0"
+                      :rules="rules.unitWeight"
+                      v-model.number="editedItem.envelope.mtow"
+                      dense
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      label="MLM"
+                      hint="Minimum iniş ağırlığı"
+                      type="number"
+                      min="0"
+                      :rules="rules.unitWeight"
+                      v-model.number="editedItem.envelope.mlm"
+                      dense
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-window-item>
-             <!-- Ünite Bilgileri !-->
-              <v-window-item :value="3" ><v-container><v-row>yakit Bilgileri</v-row></v-container></v-window-item>
+             <!-- Kubbe Bilgileri !-->
+             <!-- Sepet Bilgileri !-->
+              <v-window-item :value="3" >
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Marka"
+                        hint="Marka giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.basket.brand"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tip/Model"
+                        hint="Tip/Model giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.basket.type"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Seri No"
+                        hint="Seri No giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.basket.serial"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Ağırlık"
+                        hint="Ağırlık giriniz"
+                        type="number"
+                        min="0"
+                        :rules="rules.unitWeight"
+                        v-model.number="editedItem.basket.weight"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Üretim Tarihi"
+                        hint="Üretim Tarihi giriniz"
+                        type="text"
+                        v-model="editedItem.basket.date"
+                        :rules="rules.unitDate"
+                        v-mask="'##/####'"
+                        placeholder="ay/yıl"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-window-item>
+             <!-- Sepet Bilgileri !-->
+             <!-- Burner Bilgileri !-->
+              <v-window-item :value="4" >
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Marka"
+                        hint="Marka giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.burner.brand"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tip/Model"
+                        hint="Tip/Model giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.burner.type"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Seri No"
+                        hint="Seri No giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.burner.serial"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Ağırlık"
+                        hint="Ağırlık giriniz"
+                        type="number"
+                        min="0"
+                        :rules="rules.unitWeight"
+                        v-model.number="editedItem.burner.weight"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Üretim Tarihi"
+                        hint="Üretim Tarihi giriniz"
+                        type="text"
+                        v-model="editedItem.burner.date"
+                        :rules="rules.unitDate"
+                        v-mask="'##/####'"
+                        placeholder="ay/yıl"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-window-item>
+              <!-- Burner Bilgileri !-->
+             <!-- Yakıt Bilgileri !-->
+              <v-window-item :value="5" >
+                <v-container>
+                  <v-row v-for="(cylinder,index) in editedItem.cylinders" :key="index">
+                      <v-col cols="12" sm="6" md="2" >
+                        <v-text-field
+                          label="Marka"
+                          hint="Marka giriniz"
+                          type="text"
+                          maxlength="32"
+                          v-model="editedItem.cylinders[index].brand"
+                          dense
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="2"  >
+                        <v-text-field
+                          label="Tip/Model"
+                          hint="Model giriniz"
+                          type="text"
+                          maxlength="32"
+                          v-model="editedItem.cylinders[index].type"
+                          dense
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="2" >
+                        <v-text-field
+                          label="Seri No"
+                          hint="Seri no giriniz"
+                          type="text"
+                          maxlength="32"
+                          v-model="editedItem.cylinders[index].serial"
+                          dense
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="3" >
+                        <v-text-field
+                          label="Üretim Tarihi"
+                          hint="Üretim Tarihi giriniz"
+                          type="text"
+                          v-model="editedItem.cylinders[index].date"
+                          :rules="rules.unitDate"
+                          v-mask="'##/####'"
+                          placeholder="ay/yıl"
+                          dense
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="3" >
+                        <v-text-field
+                          label="Ağırlık"
+                          hint="Ağırlık giriniz"
+                          type="number"
+                          min="0"
+                          :rules="rules.unitWeight"
+                          v-model.number="editedItem.cylinders[index].weight"
+                          dense
+                        >
+                          <v-icon slot="append-outer" color="red lighten-1" @click="deleteCylinder(index)">mdi-delete</v-icon>
+                        </v-text-field>
+                      </v-col>
+                  </v-row>
+                  <v-row class="pt-3">
+                    <v-col cols="12" sm="6" md="3">
+                      <v-btn text raised color="primary" @click="addCylinder" >
+                          Yakıt Tankı Ekle
+                          <v-icon class="ml-2">
+                            mdi-plus
+                          </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-window-item>
+             <!-- Yakıt Bilgileri !-->
+             <!-- Sensor Bilgileri !-->
+              <v-window-item :value="6" >
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="GPS Marka"
+                        hint="Marka giriniz (Flytec vb)"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.brand"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tip/Model"
+                        hint="Tip/Model giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.type"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Seri No"
+                        hint="Seri No giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.serial"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Isı Ölçer Marka"
+                        hint="Marka giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.ttBrand"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tip/Model"
+                        hint="Tip/Model giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.ttType"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Seri No"
+                        hint="Seri No giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.ttSerial"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tablet Marka"
+                        hint="Marka giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.tabletBrand"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Tip/Model"
+                        hint="Tip/Model giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.tabletType"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        label="Seri No"
+                        hint="Seri No giriniz"
+                        type="text"
+                        maxlength="32"
+                        v-model="editedItem.sensor.tabletSerial"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                   
+                  </v-row>
+                </v-container>
+              </v-window-item>
+             <!-- Sensor Bilgileri !-->
           </v-window>
         </v-card-text>
         <v-card-actions>
@@ -138,11 +526,15 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import { VueMaskDirective } from 'v-mask'
 export default {
   
   props: ["dialog","form","defaultForm"],
   components: {
     DatePicker: () => import('~/components/common/date-picker')
+  },
+  directives: {
+    mask: VueMaskDirective
   },
   data() {
     return {
@@ -160,6 +552,12 @@ export default {
         ],
         insurance: [
           v => v ? (/^\d+$/.test(v) && Number.isInteger(v) && v > 1) || "Geçerli bir hacim giriniz" : true
+        ],
+        unitDate: [
+          v => v ? /^(0[1-9]|1[0-2])\/(19|20|21)\d{2}$/.test(v) || "Geçerli bir tarih giriniz" : true
+        ],
+        unitWeight: [
+          v => v ? ( v  && `${v}`.match(/^\d+$/) && Number.isInteger(v) && v >= 0) || "Geçerli bir sayı giriniz" : true
         ],
         customer: [
           v => !!v || "Lütfen firma seçiniz"
@@ -181,6 +579,7 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 2000);
+      //this.$moment('20.05.2020','DD.MM.YYYY',true).isValid()
         console.log(this.editedItem);
       if (this.$refs.form.validate()) {
         try {
@@ -196,6 +595,24 @@ export default {
       }
       
     },
+
+    addCylinder(){
+      if(this.editedItem.cylinders.length < 7 ){
+        const field = {
+          brand: "",
+          type:"",
+          date:"",
+          weight: 0
+        };
+        
+        this.editedItem.cylinders.push(field);
+      }
+    },
+
+    deleteCylinder(index){
+      this.editedItem.cylinders.splice(index,1);
+    },
+
     resetForm() {
       if( this.editedItem._id == 'default' ){
         this.$refs.form.reset();
@@ -214,7 +631,9 @@ export default {
     }
   },
   computed: {
+
     ...mapState("balloons", ["companies"]),
+
     getDialog: {
       get() {
         return this.dialog;
@@ -223,6 +642,7 @@ export default {
         this.$emit("update:dialog");
       }
     },
+
     editedItem: {
       get() {
         return this.form;
@@ -231,12 +651,28 @@ export default {
         this.$emit('update:form',value);
       }
     },
+
     dialogTitle() {
       return this.editedItem._id == "default" ? "Balon Ekle" : ( `Düzenle - ${this.editedItem.registration || ''}` )
     },
+
     readOnly(){
       return this.editedItem._id.length === 24
+    },
+
+    totalWeight(){
+      let cylinders = 0;
+      if( this.editedItem.cylinders.length > 0 ){
+        cylinders =  this.editedItem.cylinders.reduce((a, item) => {
+          return a + ( /^\d+/.test(item.weight) ? item.weight : 0 )
+        },0);
+      }
+
+      return ['envelope','basket','burner'].reduce( (a, item) => {
+        return a + ( /^\d+/.test(this.editedItem[item].weight) ? this.editedItem[item].weight : 0 )
+      }, 0 ) + cylinders;
     }
   }
+
 }
 </script>
