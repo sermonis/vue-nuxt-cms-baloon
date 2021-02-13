@@ -24,6 +24,7 @@
         link
         color="primary"
         v-show="linkPermission(item.permisson)"
+        
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>

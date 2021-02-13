@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <v-icon color="indigo" class="mr-2">mdi-airballoon-outline</v-icon>
-      {{ headerText }}
+      {{ tableTitle }}
       <v-spacer></v-spacer>
       <v-scroll-x-reverse-transition>
         <v-text-field
@@ -26,6 +26,7 @@
       <v-btn icon class="no-print" @click="drawer = !drawer">
         <v-icon color="indigo">mdi-backburger</v-icon>
       </v-btn>
+      
     </v-card-title>
     <v-data-table
       id="balloon-table"
@@ -72,7 +73,7 @@
         </v-hover>
       </template>
     </v-data-table>
-    <Drawer :drawer.sync="drawer" />
+    <Drawer :drawer.sync="drawer" :filter.sync="filter" :tableTitle="tableTitle" :data="balloonsList" />
     <Dialog :defaultForm="defaultForm" :dialog.sync="dialog" :form.sync="form"/>
   </v-card>
 </template>
@@ -86,6 +87,7 @@ export default {
   components: {
     Dialog: () => import('~/components/balloons/dialog'),
     Drawer: () => import('~/components/balloons/drawer')
+    
   },
   
   validate({ store }) {
@@ -101,8 +103,8 @@ export default {
       drawer: null,
       dialog: false,
       searchBtn: false,
-      headerText: "Balonlar",
       search: "",
+      
       headers: [
         {
           text: "Tescil",
@@ -221,8 +223,27 @@ export default {
         insurance: '',
         cylinders: []
       },
-      filter: ["Aktif"]
+      title: "Balonlarımız",
+      filter: JSON.stringify({
+          filter: {
+            status: ["Aktif"]
+          },
+          name: "Balonlarımız"
+        })
+        
     };
+  },
+  watch:{
+    filter(val){
+      if(! this.filter ){
+        this.filter = JSON.stringify({
+          filter: {
+            status: ["Aktif"]
+          },
+          name: "Balonlarımız"
+        });
+      }
+    }
   },
   mounted() {
     this.socket = this.$nuxtSocket({
@@ -265,7 +286,19 @@ export default {
   computed: {
     ...mapState("balloons", ["list"]),
     balloonsList(){
-      return this.list.filter(item => item.status === "Aktif");
+      const { filter, name } = JSON.parse(this.filter);
+      this.title = name;
+      return this.list.filter( (item) => {
+        for (let key in filter ) {
+          if (item[key]  && filter[key].includes(item[key])) {
+            return true;
+          }
+        }
+        return false;
+      });
+    },
+    tableTitle(){
+      return `Balonlar - ${this.title}`;
     }
   }
 }

@@ -1,34 +1,47 @@
 <template>
   <v-navigation-drawer v-model="getDrawer" hide-overlay right temporary app>
-    <v-list dense>
-      <v-list-item-group v-model="group" multiple active-class="blue--text">
+    <v-list dense flat>
+      <v-subheader>
+        <v-icon color="orange" small v-text="`mdi-filter-menu`" class="mr-2" />
+        Filtreler
+      </v-subheader>
+      <v-list-item-group v-model="group" color="primary" >
         <template v-for="(item, index) in lists">
-          <v-list-item dense :key="index">
-            <template v-slot:default="{ active }">
-              <v-list-item-action>
-                <v-checkbox dense :input-value="active"></v-checkbox>
-              </v-list-item-action>
+          <v-list-item :key="index" :value="JSON.stringify(item)">
+              
+              <v-list-item-icon>
+                <v-icon v-text="group == JSON.stringify(item) ? 'mdi-playlist-check' : 'mdi-format-list-bulleted'"/>
+              </v-list-item-icon>
 
-              <v-list-item-content dense>
-                <v-list-item-title>{{ item }}</v-list-item-title>
+              <v-list-item-content >
+                <v-list-item-title v-text="item.name"/>
               </v-list-item-content>
-            </template>
+            
           </v-list-item>
-
-          <v-divider :key="item" />
+          <v-divider :key="item.name" />
         </template>
-        <v-list-item dense @click="activateAll">
-          <template v-slot:default="{ active }">
-            <v-list-item-action>
-              <v-checkbox dense :input-value="active"></v-checkbox>
-            </v-list-item-action>
+      </v-list-item-group>
+      <v-subheader>
+        <v-icon color="orange" small v-text="`mdi-cloud-upload`" class="mr-2" />
+        Dışa Aktar
+      </v-subheader>
+      <v-list-item-group v-model="exportTable" color="primary" >
+       
+          <v-list-item >
+              
+              <v-list-item-icon>
+                <v-icon color="success" v-text="'mdi-microsoft-excel'"/>
+              </v-list-item-icon>
 
-            <v-list-item-content dense>
-              <v-list-item-title>Bütün Balonlar</v-list-item-title>
-            </v-list-item-content>
-          </template>
-        </v-list-item>
-        <v-divider />
+              <v-list-item-content >
+                <v-list-item-title >
+                  <ExportExcel :data="data" :fields="fields" :name="tableTitle" :title="tableTitle" :header="tableTitle" :worksheet="tableTitle" />
+                </v-list-item-title>
+              </v-list-item-content>
+            
+          </v-list-item>
+          <v-divider :key="tableTitle" />
+        
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -36,27 +49,86 @@
 
 <script>
 export default {
-  props: ["drawer"],
+  props: ["drawer","filter","data","tableTitle"],
+  components: {
+    ExportExcel: () => import('~/components/data-table/export-excel')
+  },
   data() {
     return {
-      group: [],
+      exportTable: [],
       lists: [
-        "Balonlarımız",
-        "Altif Balonlar",
-        "Pasif Balonlar",
-        "Kiralık Balonlar"
-      ]
+        {
+          filter: {
+            status: ["Aktif"]
+          },
+          name: "Balonlarımız"
+        },
+        {
+          filter: {
+            status: ["Aktif"]
+          },
+          name: "Aktif Balonlar"
+        },
+        {
+          filter: {
+            status: ["Pasif"]
+          },
+          name: "Pasif Balonlar"
+        },
+        {
+          filter: {
+            status: ["Aktif"]
+          },
+          name: "Kiralık Balonlar"
+        },
+        {
+          filter: {
+            status: ["Aktif","Pasif"]
+          },
+          name: "Bütün Balonlar"
+        }
+      ],
+      fields: {
+        Tescil: "registration",
+        Hacim: "volume",
+        Yolcu: "passengerCapacity",
+        Pilot: "pilotCapacity",
+        "Marka": {
+          field: "envelope.brand",
+          callback: (value) => {
+            return value || '-';
+          },
+        },
+        "Tip": {
+          field: "envelope.brand",
+          callback: (value) => {
+            return value || '-';
+          },
+        },
+        "Seri": {
+          field: "envelope.serial",
+          callback: (value) => {
+            return value || '-';
+          },
+        },
+        "Uçuşa Elv.": {
+          field: "reviewCertificate",
+          callback: (value) => {
+            return value ? this.$moment(value).format('DD.MM.YYYY') : '-';
+          },
+        },
+        "Sigorta": {
+          field: "insurance",
+          callback: (value) => {
+            return value ? this.$moment(value).format('DD.MM.YYYY') : '-';
+          },
+        },
+      }
     };
   },
   methods: {
-    activateAll() {
-      this.group = [0, 1, 2, 3, 4];
-    }
-  },
-  watch: {
-    group(newVal, old) {
-      //this.$emit('update:drawer', ! this.drawer)
-      console.log(this.group);
+    checkValue(value) {
+      console.log(value);
     }
   },
   computed: {
@@ -66,6 +138,14 @@ export default {
       },
       set(value) {
         this.$emit("update:drawer", value);
+      }
+    },
+    group: {
+      get() {
+        return this.filter;
+      },
+      set(value) {
+        this.$emit("update:filter", value);
       }
     }
   }
