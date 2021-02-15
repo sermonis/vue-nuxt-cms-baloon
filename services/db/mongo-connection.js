@@ -7,7 +7,7 @@ async function main() {
     useCreateIndex: true,
     useFindAndModify: false
   });
-  console.log("mongo connected");
+  console.log("mongodb connected");
 }
 
 main();

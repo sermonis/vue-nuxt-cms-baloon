@@ -22,10 +22,11 @@ app.use(rateLimiterMiddleware);
 
 /*
   Routes 
- */ 
+*/ 
 const router = express.Router();
 app.use('/user', require('./user/routes/user')(router));
 app.use('/balloon', require('./balloons/routes/balloon')(router));
+app.use('/customer', require('./customers/routes/customer')(router));
 
 
 // catch 404 and forward to error handler

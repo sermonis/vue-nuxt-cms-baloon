@@ -121,10 +121,10 @@ export default {
     }
     
     .v-data-table-header th {
-        color: #000000 !important;
+      color: #000000 !important;
     }
     .v-data-table tbody tr, .v-data-table tbody td, .v-data-table-header tr, .v-data-table-header th {
-            border-bottom: 1px solid black  !important;
+      border-bottom: 1px solid black  !important;
     }
     .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
     .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > td,

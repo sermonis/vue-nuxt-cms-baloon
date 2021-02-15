@@ -69,7 +69,7 @@ module.exports = {
 
     defaults( req.body );
 
-    if( req.body._id  &&  ! ( /^(0x|0h)?[0-9A-F]+$/i.test(req.body._id) && req.body._id.length === 24 ) ){
+    if( req.body._id  &&  ! ( /^(0x|0h)?([0-9A-F]{24})+$/i.test(req.body._id) ) ){
       delete req.body._id;
     }
 
@@ -78,7 +78,7 @@ module.exports = {
     */
 
     if( req.body.hasOwnProperty('customer') ){
-      if( ! ( /^(0x|0h)?[0-9A-F]+$/i.test(req.body.customer?._id) && req.body.customer._id.length === 24 ) ){
+      if( ! ( /^(0x|0h)?([0-9A-F]{24})+$/i.test(req.body.customer._id) ) ){
         delete req.body.customer;
       }
     }
@@ -96,12 +96,12 @@ module.exports = {
     */
 
     if( req.body.hasOwnProperty('customer') ){
-      if( ! ( /^(0x|0h)?[0-9A-F]+$/i.test(req.body.customer?._id) && req.body.customer._id.length === 24 ) ){
+      if( ! ( /^(0x|0h)?([0-9A-F]{24})+$/i.test(req.body.customer._id) ) ){
         delete req.body.customer;
       }
     }
 
-    if( !( req.body.hasOwnProperty('_id') && /^(0x|0h)?[0-9A-F]+$/i.test(req.body._id) && req.body._id.length === 24 ) ){
+    if( !( req.body.hasOwnProperty('_id') && /^(0x|0h)?([0-9A-F]{24})+$/i.test(req.body._id) ) ){
       throw new Error("400 || Veri id`si geçerli değil");
     }
 

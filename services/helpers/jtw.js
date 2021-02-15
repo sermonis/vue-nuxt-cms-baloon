@@ -78,5 +78,17 @@ module.exports = {
 
     });
 
+  },
+
+  checkPermission: ( permission ) => {
+    return (req, res, next) => {
+      const { user } = req;
+      if( ["admin","manager"].includes(user.rank) || ( user.permissions && user.permissions.includes(permission) ) ){
+        next();
+      } else {
+        throw new Error('401 || Bu içeriğe erişim izniniz yok. İzinlerinizi değiştirmek için lütfen yönetimle iletişime geçiniz');
+      }
+    }
   }
+
 }

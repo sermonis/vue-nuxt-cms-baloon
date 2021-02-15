@@ -23,7 +23,7 @@
         :to="item.to"
         link
         color="primary"
-        v-show="linkPermission(item.permisson)"
+        v-show="checkPermission(item.permisson)"
         
       >
         <v-list-item-icon>
@@ -44,23 +44,13 @@ export default {
     return {
       items: [
         { title: "Ana Sayfa", icon: "mdi-home", to: "/", permisson: "/" },
-        { title: "Balonlar", icon: "mdi-airballoon-outline", to: "/balloons",  permisson: "viewBalloons" }
+        { title: "Balonlar", icon: "mdi-airballoon-outline", to: "/balloons",  permisson: "viewBalloons" },
+        { title: "Müşteriler", icon: "mdi-account-tie", to: "/customers",  permisson: "viewCustomers" }
       ]
     }
   },
   methods: {
-    linkPermission(permission) {
-      if (!this._loggedIn) {
-        return false;
-      }
-      if (["admin", "manager"].includes(this.$store.state.auth.user.rank)) {
-        return true;
-      } else if ( this.$store.state.auth.user.permissions && this.$store.state.auth.user.permissions.includes(permission) ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    
   }
 }
 </script>

@@ -29,15 +29,15 @@
        
           <v-list-item >
               
-              <v-list-item-icon>
-                <v-icon color="success" v-text="'mdi-microsoft-excel'"/>
-              </v-list-item-icon>
+            <v-list-item-icon>
+              <v-icon color="success" v-text="'mdi-microsoft-excel'"/>
+            </v-list-item-icon>
 
-              <v-list-item-content >
-                <v-list-item-title >
-                  <ExportExcel :data="data" :fields="fields" :name="tableTitle" :title="tableTitle" :header="tableTitle" :worksheet="tableTitle" />
-                </v-list-item-title>
-              </v-list-item-content>
+            <v-list-item-content >
+              <v-list-item-title >
+                <ExportExcel :data="data" :fields="fields" :name="tableTitle" :title="tableTitle" :header="tableTitle" :worksheet="tableTitle" />
+              </v-list-item-title>
+            </v-list-item-content>
             
           </v-list-item>
           <v-divider :key="tableTitle" />
@@ -127,9 +127,7 @@ export default {
     };
   },
   methods: {
-    checkValue(value) {
-      console.log(value);
-    }
+    
   },
   computed: {
     getDrawer: {

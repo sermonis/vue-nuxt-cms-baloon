@@ -20,7 +20,7 @@
       <v-btn icon class="no-print" @click="searchBtn = !searchBtn">
         <v-icon color="indigo" >mdi-magnify</v-icon>
       </v-btn>
-      <v-btn icon class="no-print"  @click="dialog = !dialog">
+      <v-btn icon class="no-print"  @click="dialog = !dialog" v-show="checkPermission('addBalloon')">
         <v-icon color="indigo" >mdi-plus-circle</v-icon>
       </v-btn>
       <v-btn icon class="no-print" @click="drawer = !drawer">
@@ -29,7 +29,6 @@
       
     </v-card-title>
     <v-data-table
-      id="balloon-table"
       :search="search"
       :headers="headers"
       :items="balloonsList"
@@ -44,6 +43,18 @@
       }"
       dense
     >
+      <!-- eslint-disable -->
+      <template v-slot:item.registration="{ item }">
+        <v-hover v-slot="{ hover }">
+          <nuxt-link
+            :style="`text-decoration: none;color: ${hover ? '#1976D2' : 'black'}; font-weight:bold`"
+            :to="`/balloons/${item._id}`"
+            tag="a"
+          >
+            {{ $itemExist(item.registration) }}
+          </nuxt-link>
+        </v-hover>
+      </template>
       <template v-slot:item.reviewCertificate="{ item }">
         {{ $itemExist(item.envelope.brand) }}
       </template>
@@ -63,6 +74,7 @@
       <template v-slot:item.actions="{ item }" >
         <v-hover v-slot="{ hover }">
         <v-icon
+          v-show="checkPermission('editBalloon')"
           @click="editItem(item)"
           small
           class="mr-2 no-print"
@@ -72,6 +84,7 @@
         </v-icon>
         </v-hover>
       </template>
+      <!-- eslint-disable -->
     </v-data-table>
     <Drawer :drawer.sync="drawer" :filter.sync="filter" :tableTitle="tableTitle" :data="balloonsList" />
     <Dialog :defaultForm="defaultForm" :dialog.sync="dialog" :form.sync="form"/>
@@ -115,7 +128,6 @@ export default {
         },
         { text: "Hacim", value: "volume", sortable: false, align: "center",  width: "1%" },
         { text: "Yolcu", value: "passengerCapacity", sortable: false, align: "center", width: "1%" },
-        { text: "Pilot", value: "pilotCapacity", sortable: false, align: "center",  width: "1%" },
         { text: "Marka", value: "envelope.brand", sortable: false, align: "center",  width: "5%" },
         { text: "Tip", value: "envelope.type", sortable: false, align: "center",  width: "5%" },
         { text: "Seri",value: "envelope.serial", sortable: false, align: "center",  width: "5%" },
@@ -234,7 +246,7 @@ export default {
     };
   },
   watch:{
-    filter(val){
+    filter(){
       if(! this.filter ){
         this.filter = JSON.stringify({
           filter: {
@@ -288,17 +300,23 @@ export default {
     balloonsList(){
       const { filter, name } = JSON.parse(this.filter);
       this.title = name;
-      return this.list.filter( (item) => {
-        for (let key in filter ) {
-          if (item[key]  && filter[key].includes(item[key])) {
-            return true;
+      if( this.title === "Balonlarımız" ){
+        return this.list.filter( item => ! item.hasOwnProperty('customer') && item.status === "Aktif" )
+      } else if( this.title === "Kiralık Balonlar" ){
+        return this.list.filter( item => item.hasOwnProperty('customer') && item.status === "Aktif" )
+      } else {
+        return this.list.filter( (item) => {
+          for (let key in filter ) {
+            if (item[key] && filter[key].includes(item[key])) {
+              return true;
+            }
           }
-        }
-        return false;
-      });
+          return false;
+        });
+      }
     },
     tableTitle(){
-      return `Balonlar - ${this.title}`;
+      return this.title;
     }
   }
 }

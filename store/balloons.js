@@ -1,7 +1,6 @@
 export const state = () => ({
   list: [],
-  companies: [],
-  form: {}
+  companies: []
 });
 
 export const actions = {

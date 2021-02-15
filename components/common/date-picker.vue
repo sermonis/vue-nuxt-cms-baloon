@@ -3,7 +3,6 @@
     v-model="date"
     :close-on-content-click="false"
     transition="slide-y-transition"
-    offset-y
     max-width="290px"
     min-width="auto"
   >

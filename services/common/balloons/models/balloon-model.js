@@ -63,18 +63,16 @@ const BalloonSchema = new mongoose.Schema(
         maxlength: 7
       }
     },
-    crew: [
-      {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Staff',
-        autopopulate: {
-          select: '_id name username'
-        }
+    crew: [{
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Staff',
+      autopopulate: {
+        select: '_id name username'
       }
-    ],
+    }],
     customer: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Customer',
+      ref: 'Customers',
       autopopulate: {
         select: '_id name'
       }
@@ -84,7 +82,6 @@ const BalloonSchema = new mongoose.Schema(
         type: String,
         maxlength: 32,
         set: escape
-
       },
       type: {
         type: String,
@@ -182,6 +179,8 @@ const BalloonSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// BalloonSchema.plugin(require("mongoose-autopopulate"));
 
 const BalloonModel = mongoose.model('Balloons', BalloonSchema);
 

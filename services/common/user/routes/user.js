@@ -10,8 +10,6 @@ const { signAccessToken, verifyAccessToken } = require("../../../helpers/jtw");
 
 module.exports = (router) => {
 
-  
-
   router.post("/refresh", async (req, res, next) => {
     try {
       const token = req.body.token;

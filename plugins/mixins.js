@@ -15,7 +15,7 @@ Vue.mixin({
   methods: {
     async $logout() {
       await this.$store.commit("auth/LOGOUT");
-      await this.$router.push("/login");
+      this.$router.push("/login");
     },
 
     $itemExist(item){
@@ -25,6 +25,19 @@ Vue.mixin({
     $formatDate(date, format = 'DD.MM.YYYY'){
       if(! date ) return null;
       return this.$moment(date).format(format)
+    },
+
+    checkPermission(permission) {
+      if (!this._loggedIn) {
+        return false;
+      }
+      if (["admin", "manager"].includes(this._user.rank)) {
+        return true;
+      } else if ( this._user.permissions && this._user.permissions.includes(permission) ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 });

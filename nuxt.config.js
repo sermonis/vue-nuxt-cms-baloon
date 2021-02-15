@@ -154,7 +154,8 @@ export default {
   
   proxy: {
     '/user-service/': { target: process.env.USER_SERVICE, pathRewrite: {'^/user-service/': ''} },
-    '/balloon-service/': { target: process.env.BALLOON_SERVICE, pathRewrite: {'^/balloon-service/': ''} }
+    '/balloon-service/': { target: process.env.BALLOON_SERVICE, pathRewrite: {'^/balloon-service/': ''} },
+    '/customer-service/': { target: process.env.CUSTOMER_SERVICE, pathRewrite: {'^/customer-service/': ''} }
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

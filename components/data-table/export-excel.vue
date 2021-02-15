@@ -1,5 +1,5 @@
 <template>
-  <div :id="idName" @click="generate" style="cursor: pointer">
+  <div :id="idName" @click="generate">
     <slot>Excel</slot>
   </div>
 </template>
@@ -154,16 +154,16 @@ export default {
       //Fields
       xlsData += "<tr>";
       for (let key in data[0]) {
-        xlsData += `<th style="border: 1px solid black; padding:5px; background-color: #BDBDBD">${key.toUpperCase()}</th>`;
+        xlsData += `<th style="border: 1px solid black; padding:5px; background-color: #BDBDBD; font-size: 14px">${key.toUpperCase()}</th>`;
       }
       xlsData += "</tr>";
       xlsData += "</thead>";
       //Data
       xlsData += "<tbody>";
-      data.map(function (item, index) {
+      data.map( item => {
         xlsData += "<tr>";
         for (let key in item) {
-          xlsData += `<td style="border: 1px solid black; padding:5px;">${_self.preprocessLongNum( _self.valueReformattedForMultilines( item[key] ) )}</td>`;
+          xlsData += `<td style="border: 1px solid black; padding:5px; font-size: 14px">${_self.preprocessLongNum( _self.valueReformattedForMultilines( item[key] ) )}</td>`;
         }
         xlsData += "</tr>";
       });
